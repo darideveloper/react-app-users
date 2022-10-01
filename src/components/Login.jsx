@@ -16,11 +16,11 @@ export default function Login (props) {
                         <form className="mt-0">
                             <div className="mb-3">
                                 <label htmlFor="email" className="form-label">Email</label>
-                                <input type="email" className="form-control" id="email" placeholder="John Doe" required/>
+                                <input type="email" className="form-control" id="email" placeholder="johndoe@gmail.com" minlength="6" required/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="password" className="form-label">Password</label>
-                                <input type="password" className="form-control" id="password" required/>
+                                <input type="password" className="form-control" id="password" placeholder='********' minlength="8" required/>
                             </div>
                             <div className="mb-3 form-check">
                                 <input type="checkbox" className="form-check-input" id="keep" />
