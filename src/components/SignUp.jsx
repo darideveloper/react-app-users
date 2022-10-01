@@ -1,6 +1,8 @@
 import {countries_names} from '../js/countries'
 
-export default function SignUp () {
+export default function SignUp (props) {
+    console.log (props.roles)
+    
     return (
         <section className="signup-wrapper">
             <h1 className="text-center">Sign Up</h1>
@@ -29,6 +31,13 @@ export default function SignUp () {
                                 <select className="form-select" id="country" aria-label="country select" default="United States" required>
                                     {/* Render countries options */}
                                     { countries_names.map ((country) => <option value={country} key={country} >{country}</option>)}
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="role" className="form-label">Role</label>
+                                <select className="form-select" id="role" aria-label="role select" default="Standard" required>
+                                    {/* Render countries options */}
+                                    { props.roles.map ((role) => <option value={role} key={role}>{role}</option>)}
                                 </select>
                             </div>
                             <div className="mb-3">
