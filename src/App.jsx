@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import { setCookie, getCookie, eraseCookie } from './js/cookies'
-import Login from "./Login"
+import { useContext, useState } from 'react'
+import { AppContext } from './context/AppContext'
+import Login from "./components/Login"
+import SignUp from './components/SignUp'
 
 
-// Get user name from cookies for validate logjn
-const user = getCookie('user')
 
 function App() {
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
+
+    // Get context
+    const {user} = useContext(AppContext)
 
     // show home page ifg user its logged
     if (user) {
-        return <h1>User logged</h1>
+        return <SignUp></SignUp>
     }
     return <Login></Login>
 }
