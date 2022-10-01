@@ -1,4 +1,8 @@
 @charset "UTF-8";
+header {
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
 /*!
  * Bootstrap  v5.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

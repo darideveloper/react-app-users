@@ -3,6 +3,7 @@ import { UserContext } from './context/UserContext'
 import { ScreenContext } from './context/ScreenContext'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
+import Header from './components/Header'
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -25,14 +26,26 @@ function App() {
     } else {
         if (['home', 'login'].includes(screen)) {
             return (
-                <Login
-                    onClickLink={function () {
-                        setScreen('signup')
-                    }}
-                ></Login>
+                <>
+                    <Header></Header>
+                    <div className='container'>
+                        <Login
+                            onClickLink={function () {
+                                setScreen('signup')
+                            }}
+                        ></Login>
+                    </div>
+                </>
             )
         } else if (screen == 'signup') {
-            return <SignUp roles={roles}></SignUp>
+            return (
+                <>
+                    <Header></Header>
+                    <div className='container'>
+                        <SignUp roles={roles}></SignUp>
+                    </div>
+                </>
+            )
         }
     }
 }
