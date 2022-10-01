@@ -4,7 +4,9 @@ import App from './App'
 import './css/custom.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <div className='container'>
+            <App />
+        </div>
+    </React.StrictMode>
 )
