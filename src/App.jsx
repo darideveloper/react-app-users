@@ -13,9 +13,9 @@ function App() {
     const { screen, setScreen } = useContext(ScreenContext)
 
     const roles = [
+        'Admin',
         'Standard',
         'Publisher',
-        'Administrator',
         'Support',
         'Vendor',
     ]

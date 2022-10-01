@@ -1,5 +1,7 @@
 import { ScreenContext } from '../context/ScreenContext'
 import { useContext } from 'react'
+import Input from './Input'
+import Button from './Button'
 
 export default function Login (props) {
     // const {setScreen} = useContext(ScreenContext)
@@ -14,14 +16,8 @@ export default function Login (props) {
                     </div>
                     <div className="col-12 col-md-6 mt-0 mt-md-5">
                         <form className="mt-0">
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">Email</label>
-                                <input type="email" className="form-control" id="email" placeholder="johndoe@gmail.com" minLength="6" required/>
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input type="password" className="form-control" id="password" placeholder='********' minLength="8" required/>
-                            </div>
+                            <Input id="email" label="Email" type="email" placeholder="johndoe@gmail.com" minLength={6} required={true}/>
+                            <Input id="password" label="Password" type="password" placeholder="" minLength={8} required={true}/>
                             <div className="mb-3 form-check">
                                 <input type="checkbox" className="form-check-input" id="keep" />
                                 <label className="form-check-label" htmlFor="keep">keep me logged in</label>
@@ -29,7 +25,9 @@ export default function Login (props) {
                             <div className="form-text">You do not have an account? Sign up
                                 <button type="button" className="link-primary border-0 bg-transparent" onClick={props.onClickLink}>here</button>
                             </div>
-                            <button type="submit" className="btn btn-outline-primary px-5 mt-3">Submit</button>
+
+                            <Button size={5} outline={true} text="Submit" />
+                            
                         </form>
                     </div>
                 </div>
