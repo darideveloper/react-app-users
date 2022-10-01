@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect } from 'react'
 import { setCookie, getCookie, eraseCookie } from '../js/cookies'
 
-// Create general context for the app
-export const AppContext = createContext()
+// Create general context for the User
+export const UserContext = createContext()
 
 // Context provider
-export function AppContextProvider(props) {
+export function UserContextProvider(props) {
 
     // state for manage user name
     const [user, setUser] = useState(null)
@@ -15,7 +15,7 @@ export function AppContextProvider(props) {
 
     // Retur4n context for encapsulate childs
     return (
-        <AppContext.Provider
+        <UserContext.Provider
             // Set as value an object with the context data
             value={{
                 user,
@@ -23,6 +23,6 @@ export function AppContextProvider(props) {
             }}
         >
             {props.children}
-        </AppContext.Provider>
+        </UserContext.Provider>
     )
 }

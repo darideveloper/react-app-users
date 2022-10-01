@@ -1,9 +1,9 @@
+import { ScreenContext } from '../context/ScreenContext'
+import { useContext } from 'react'
 
-function handleGoSignUp () {
-    alert ("go")
-}
+export default function Login (props) {
+    // const {setScreen} = useContext(ScreenContext)
 
-export default function Login () {
     return (
         <section className="login-wrapper">
             <h1 className="text-center">Login</h1>
@@ -27,7 +27,7 @@ export default function Login () {
                                 <label className="form-check-label" htmlFor="keep">keep me logged in</label>
                             </div>
                             <div className="form-text">You do not have an account? Sign up
-                                <button className="link-primary border-0 bg-transparent" onClick={handleGoSignUp}>here</button>
+                                <button type="button" className="link-primary border-0 bg-transparent" onClick={props.onClickLink}>here</button>
                             </div>
                             <button type="submit" className="btn btn-outline-primary px-5 mt-3">Submit</button>
                         </form>
