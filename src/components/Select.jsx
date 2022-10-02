@@ -5,7 +5,7 @@ export default function DropDown ({ id, data, value, required }) {
     return (
         <div className="mb-3">
             <label htmlFor={id} className="form-label">Country</label>
-            <select className="form-select" id={id} value={value} required={required}>
+            <select className="form-select" id={id} value={value} required={required} onChange={() => console.log ("change")}>
                 {/* Render countries options */}
                 { data.map ((option) => <option value={option} key={option} >{option}</option>)}
             </select>

@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import Input from './Input'
 import Button from './Button'
 
-export default function Login (props) {
+export default function Login ({ onClickLink }) {
     // const {setScreen} = useContext(ScreenContext)
 
     return (
@@ -23,10 +23,10 @@ export default function Login (props) {
                                 <label className="form-check-label" htmlFor="keep">keep me logged in</label>
                             </div>
                             <div className="form-text">You do not have an account? Sign up
-                                <button type="button" className="link-primary border-0 bg-transparent" onClick={props.onClickLink}>here</button>
+                                <button type="button" className="link-primary border-0 bg-transparent" onClick={onClickLink}>here</button>
                             </div>
 
-                            <Button size={5} outline={true} text="Submit" />
+                            <Button size={5} outline={true} text="Submit" type="submit" />
                             
                         </form>
                     </div>

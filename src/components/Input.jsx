@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function Input({ id, label, type, placeholder, minLength, required }) {
+export default function Input({ id, label, type, placeholder, minLength, required, onChange }) {
     return (
         <div className='mb-3'>
             <label
@@ -16,6 +16,7 @@ export default function Input({ id, label, type, placeholder, minLength, require
                 placeholder={placeholder}
                 minLength={minLength}
                 required={required}
+                onChange={onChange}
             />
         </div>
     )
