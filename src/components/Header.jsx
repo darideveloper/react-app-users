@@ -1,4 +1,20 @@
+import HeaderButton from "./HeaderButton"
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
+
 export default function Header () {
+
+    const { user } = useContext (UserContext)
+    let menu
+
+    if (user) {
+        // Menu buttons based in rol
+        menu = ["home", "users", "roles", "logout"]
+    } else {
+        // menu for not login users
+        menu = ["login", "signup"]
+    }
+
     return (
         <header className="mb-4">
             <nav className="navbar navbar-expand-lg container">
@@ -9,18 +25,9 @@ export default function Header () {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <button className="nav-link border-0 bg-transparent">Home</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link border-0 bg-transparent">Users</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link border-0 bg-transparent">Roles</button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link border-0 bg-transparent">Logout</button>
-                            </li>
+
+                            {/* Generate menu buttons */}
+                            { menu.map (menu_item => <HeaderButton value={menu_item} key={menu_item}/>) }
                         </ul>
                     </div>
                 </div>

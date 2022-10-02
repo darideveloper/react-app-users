@@ -14,7 +14,15 @@ function App() {
 
     // Get current page from context and show it
     if (user) {
-        ;<h1>Home page</h1>
+        return (
+            <>
+                <Header></Header>
+                <div className='container'>
+                    <h1 className='text-center'>Users App</h1>
+                </div>
+            </>
+
+        )
     } else {
         if (['home', 'login'].includes(screen)) {
             return (
