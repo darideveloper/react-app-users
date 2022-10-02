@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ScreenContext } from '../context/ScreenContext'
 import { UserContext } from '../context/UserContext'
 import { get_user_password } from '../js/api'
@@ -17,6 +17,20 @@ export default function Login({ onClickLink }) {
     const [email, setEmail] = useState('')
     const [password, setPassoword] = useState('')
 
+    function displayErrorMessage (show) {
+        // Show or hide error message
+
+        // Find error message
+        const error_message = document.querySelector ("#error")
+
+        // Manage classes for show or hide
+        if (show) {
+            error_message.classList.remove ("d-none")
+        } else {
+            error_message.classList.add ("d-none")
+        }
+    }
+
     function handleSubmit (event) {
         // Dont submit form, get inputs and query password in database
 
@@ -26,10 +40,10 @@ export default function Login({ onClickLink }) {
         // Get user and passwors from database
         get_user_password (email)
             .then ((password_obj) => {
-                if (password_obj) {
+                if (password_obj.length > 0) {
                     checkPassword (password_obj[0].password)
                 } else {
-                    invalidPassword ()
+                    displayErrorMessage (true)
                 }
             })
     }
@@ -52,13 +66,8 @@ export default function Login({ onClickLink }) {
 
         } else {
             // Invalid password
-            invalidPassword ()
+            displayErrorMessage (true)
         }
-    }
-
-    function invalidPassword() {
-        // Show error when password its invalides
-        console.log ("invalid")
     }
 
     return (
@@ -84,7 +93,7 @@ export default function Login({ onClickLink }) {
                                 required={true}
 
                                 // Save email as state
-                                onChange={function (event) {setEmail(event.target.value)}}
+                                onChange={function (event) {displayErrorMessage(false); setEmail(event.target.value)}}
                             />
                             <Input
                                 id='password'
@@ -95,8 +104,9 @@ export default function Login({ onClickLink }) {
                                 required={true}
 
                                 // Save password as state
-                                onChange={function (event) {setPassoword(event.target.value)}}
+                                onChange={function (event) {displayErrorMessage(false); setPassoword(event.target.value)}}
                             />
+                            <div id="error" className="form-text text-primary mt-0 mb-3 d-none">Wrong user or password. Try again.</div>
                             <div className='mb-3 form-check'>
                                 <input
                                     type='checkbox'
