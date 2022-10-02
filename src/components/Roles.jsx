@@ -10,18 +10,19 @@ export default function Roles () {
     const [form_type, setFormType] = useState ("Add")
     const [name, setName] = useState ("Add")
     const [details, setDetails] = useState ("Add")
+    const [update, setUpdate] = useState (0)
 
     // Get pages from api
     useEffect (() => {
         get_pages().then ((pages) => setPages(pages))
-    }, [])
+    }, [update])
 
     // Get rikes from api
     useEffect (() => {
         get_roles_pages().then ((roles) => {
                 setRoles(roles)
             })
-    }, [])
+    }, [update])
 
     function handleEdit (event) {
         const table_row = event.target.parentNode
@@ -52,9 +53,10 @@ export default function Roles () {
             const rol_id = Math.max (roles) + 1
             
             // Save rol in database
-            save_role(name, details).then ((output) => {
-                console.log (output)                
-            })
+            save_role(name, details).then (
+                // refresh component
+                setUpdate (update + 1)
+            )
         }
 
     } 
