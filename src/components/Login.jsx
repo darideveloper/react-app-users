@@ -39,12 +39,15 @@ export default function Login({ onClickLink }) {
         const password_db = decrypt(password_encrypted)
         if (password_db == password) {
             // Valid password
-            
+
             // Update user in cookies
             setCookie ("user", email, 20)
 
             // Update user in context
             setUser (email)
+
+            // Update current screen
+            setScreen ("home")
 
 
         } else {

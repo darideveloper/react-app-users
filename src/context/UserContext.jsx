@@ -7,11 +7,17 @@ export const UserContext = createContext()
 // Context provider
 export function UserContextProvider(props) {
 
-    // state for manage user name
+    // states for manage user name
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
-    // get user from cookies and save as state, when load
-    useEffect(() => setUser(getCookie('user')), [])
+    useEffect(() => {
+        // get user from cookies and save as state, when load
+        setUser(getCookie('user'))
+
+        // update loading state
+        setLoading(false)
+    }, [])
 
     // Retur4n context for encapsulate childs
     return (
@@ -20,6 +26,8 @@ export function UserContextProvider(props) {
             value={{
                 user,
                 setUser,
+                loading,
+                setLoading
             }}
         >
             {props.children}

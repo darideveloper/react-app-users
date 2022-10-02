@@ -9,8 +9,21 @@ function App() {
     // const [count, setCount] = useState(0)
 
     // Get context
-    const { user } = useContext(UserContext)
+    const { user, loading } = useContext(UserContext)
     const { screen, setScreen } = useContext(ScreenContext)
+
+    // Return loading spinner
+    if (loading) {
+        return (
+            <>
+                <div className='vw-100 vh-100 position-absolute top-0 left-0 d-flex align-items-center justify-content-center'>
+                    <div className="spinner spinner-grow text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </>
+        )
+    }
 
     // Get current page from context and show it
     if (user) {
