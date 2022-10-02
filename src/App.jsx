@@ -5,6 +5,7 @@ import { eraseCookie } from './js/cookies'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Header from './components/Header'
+import Roles from './components/Roles'
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -27,26 +28,27 @@ function App() {
     }
 
     // return no logged screens
-    if (! user) {
+    // if (! user) {
+    if (false) {
         if (['home', 'login'].includes(screen)) {
             return (
                 <>
-                    <Header></Header>
+                    <Header />
                     <div className='container'>
                         <Login
                             onClickLink={function () {
                                 setScreen('signup')
                             }}
-                        ></Login>
+                        />
                     </div>
                 </>
             )
         } else if (screen == 'signup') {
             return (
                 <>
-                    <Header></Header>
+                    <Header />
                     <div className='container'>
-                        <SignUp></SignUp>
+                        <SignUp />
                     </div>
                 </>
             )
@@ -64,11 +66,24 @@ function App() {
         // Update current screen
         setScreen ("login")
     }
+
+    // CRUDS screens
+    if (screen == "roles") {
+        return (
+            <>
+                <Header />
+                <div className='container'>
+                    <Roles />
+                </div>
+            </>
+        )
+
+    }
     
     // return home page as default
     return (
         <>
-            <Header></Header>
+            <Header />
             <div className='container'>
                 <h1 className='text-center'>Users App</h1>
             </div>

@@ -29,3 +29,13 @@ export async function get_user_password (email) {
 
     return users
 }
+
+export async function get_pages () {
+    // Query and return all registers from "roles" table
+    let { data: pages, error } = await supabase
+        .from('pages')
+        .select('*')
+
+    return pages
+
+}

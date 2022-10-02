@@ -10,6 +10,7 @@ export default function SignUp() {
     // Query rols from database ans save as state
     const [roles, setRoles] = useState([])
     
+    // Get roles from api
     useEffect (() => {
         get_roles()
             .then ((roles) => roles.map ((role) => role.name))
