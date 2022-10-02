@@ -6,6 +6,10 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// -------------------
+// ROLES QUERIES
+// -------------------
+
 export async function get_roles () {
     
     // Query and return all registers from "roles" table
@@ -51,6 +55,23 @@ export async function get_roles_pages () {
     return roles
 }
 
+export async function save_role (name, details) {
+    const { data, error } = await supabase
+        .from('roles')
+        .insert([
+            { 
+                name: name, 
+                details: details
+            },
+        ])
+
+    return (data, error)
+}
+
+// -------------------
+// USER QUERIES
+// -------------------
+
 export async function get_user_password (email) {
 
     // Query and return an user password, searching by email from users table
@@ -61,6 +82,10 @@ export async function get_user_password (email) {
 
     return users
 }
+
+// -------------------
+// PAGES QUERIES
+// -------------------
 
 export async function get_pages () {
     // Query and return all registers from "pages" table
@@ -81,4 +106,10 @@ export async function get_page_name (page_id) {
 
     return pages
 
+}
+
+export async function sign_up() {
+    const user = supabase.auth.user()
+
+    console.log (user)
 }

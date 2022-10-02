@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { get_pages, get_roles_pages } from '../js/api'
+import { get_pages, get_roles_pages, save_role, sign_up } from '../js/api'
 import CheckBox from './CheckBox'
 
 export default function Roles () {
@@ -8,32 +8,78 @@ export default function Roles () {
     const [pages, setPages] = useState ([])
     const [roles, setRoles] = useState ([])
     const [form_type, setFormType] = useState ("Add")
+    const [name, setName] = useState ("Add")
+    const [details, setDetails] = useState ("Add")
 
     // Get pages from api
     useEffect (() => {
-        get_pages()
-            .then ((pages) => setPages(pages))
+        get_pages().then ((pages) => setPages(pages))
     }, [])
 
     // Get rikes from api
     useEffect (() => {
-        get_roles_pages()
-            .then ((roles) => {
+        get_roles_pages().then ((roles) => {
                 setRoles(roles)
             })
     }, [])
 
     function handleEdit (event) {
         const table_row = event.target.parentNode
-
     }
+
+    function handleSubmit (event) {
+        sign_up ()
+
+        // No submit form
+        event.preventDefault()
+
+        // Loop for each page selected in checkboxes
+        let pages_ids = []
+        const input_pages = document.querySelectorAll (".page > input:checked")
+        for (const input_page of input_pages) {
+            const page_name = input_page.id
+            console.log (page_name)
+
+            // Get and sdve page id
+            pages_ids = pages_ids.concat (
+                pages.filter ((page) => page.name == page_name)
+                    .map ((page) => page.id)
+            )
+        }      
+
+        if (form_type == "Add") {
+            // Calculate id of the new register
+            const rol_id = Math.max (roles) + 1
+            
+            // Save rol in database
+            save_role(name, details).then ((output) => {
+                console.log (output)                
+            })
+        }
+
+    } 
 
 
     return (
         <section className='roles-wrapper'>
             <h1 className="text-center mb-4">Manage Roles</h1>
             <div className="roles row">
-                <div className="table-wrapper col-12 col-lg-8">
+                <form className='col-12 col-lg-4 border-end p-4' onSubmit={function (event) {handleSubmit(event)}}>
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input type="text" className="form-control" id="name" placeholder="Admin" required onChange={function (event) {setName(event.target.value)} }/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="details" className="form-label">Details</label>
+                        <input type="text" className="form-control" id="details" placeholder="About the rol..." required onChange={function (event) {setDetails(event.target.value)} }/>
+                    </div>
+                    <h2 className="h5">Pages permisions</h2>
+
+                    { pages.map (page => <CheckBox key={page.id} class_group="page" id={page.name} label={`${page.name} Page`} />)}
+
+                    <button type="submit" className="btn btn-primary mt-4 px-5">{form_type}</button>
+                </form>
+                <div className="table-wrapper col-12 col-lg-8 p-4">
                     <table className="table">
                         <thead>
                             <tr>
@@ -62,7 +108,7 @@ export default function Roles () {
 
 
                                         <td>
-                                            <button type="button" className="btn btn-primary m-1">Edit</button>
+                                            <button type="button" className="btn btn-outline-primary m-1">Edit</button>
                                             <button type="button" className="btn btn-danger m-1">Delete</button>
                                         </td>
                                     </tr>
@@ -72,21 +118,6 @@ export default function Roles () {
                         </tbody>
                     </table>
                 </div>
-                <form className='col-12 col-lg-4'>
-                    <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
-                        <input type="text" className="form-control" id="name" placeholder="Admin" required/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="details" className="form-label">Details</label>
-                        <input type="text" className="form-control" id="details" placeholder="About the rol..." required/>
-                    </div>
-                    <h2 className="h5">Pages permisions</h2>
-
-                    { pages.map (page => <CheckBox key={page.id} class_group="page" id={page.name} label={`${page.name} Page`} />)}
-
-                    <button type="submit" className="btn btn-primary mt-4 px-4">{form_type}</button>
-                </form>
             </div>
         </section>
     )
