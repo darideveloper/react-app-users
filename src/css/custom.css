@@ -8,6 +8,10 @@ header {
   height: 4rem !important;
 }
 
+.roles-wrapper .loading-wrapper {
+  height: calc(100vh - 100px);
+}
+
 /*!
  * Bootstrap  v5.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

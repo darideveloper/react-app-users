@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { get_pages, get_roles_pages, save_role, save_roles_pages } from '../js/api'
 import CheckBox from './CheckBox'
+import Loading from './Loading'
 
 export default function Roles () {
 
@@ -10,19 +11,20 @@ export default function Roles () {
     const [form_type, setFormType] = useState ("Add")
     const [name, setName] = useState ("Add")
     const [details, setDetails] = useState ("Add")
-    const [update, setUpdate] = useState (0)
+    const [loading, setLoading] = useState (true)
 
     // Get pages from api
     useEffect (() => {
         get_pages().then ((pages) => setPages(pages))
-    }, [update])
+    }, [loading])
 
     // Get rikes from api
     useEffect (() => {
         get_roles_pages().then ((roles) => {
-                setRoles(roles)
-            })
-    }, [update])
+            setRoles(roles)
+            setLoading(false)  
+        })
+    }, [loading])
 
     function handleEdit (event) {
         const table_row = event.target.parentNode
@@ -64,8 +66,8 @@ export default function Roles () {
             save_role(name, details).then (
                 // Save roles pages in database
                 save_roles_pages (roles_pages).then (
-                    // refresh component
-                    setUpdate (update + 1)
+                    // refresh component actgivating the loading spinner
+                    setLoading(true) 
                 )
             )
         }
@@ -74,6 +76,16 @@ export default function Roles () {
         event.target.reset()
 
     } 
+
+    if (loading) {
+        return (
+            <section className='roles-wrapper'>
+                <div className='loading-wrapper w-100 mt-0 d-flex align-items-center justify-content-center'>
+                    <Loading />
+                </div>
+            </section>
+        )
+    }
 
 
     return (

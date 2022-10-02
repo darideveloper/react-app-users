@@ -6,6 +6,7 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Header from './components/Header'
 import Roles from './components/Roles'
+import Loading from './components/Loading'
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -18,11 +19,7 @@ function App() {
     if (loading) {
         return (
             <>
-                <div className='vw-100 vh-100 position-absolute top-0 left-0 d-flex align-items-center justify-content-center'>
-                    <div className="spinner spinner-grow text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div>
+                <Loading />
             </>
         )
     }
