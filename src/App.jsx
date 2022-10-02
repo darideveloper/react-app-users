@@ -14,6 +14,8 @@ function App() {
 
     // Get current page from context and show it
     if (user) {
+        // Loaged pages
+
         return (
             <>
                 <Header></Header>
@@ -24,6 +26,8 @@ function App() {
 
         )
     } else {
+        // No loged pages
+
         if (['home', 'login'].includes(screen)) {
             return (
                 <>

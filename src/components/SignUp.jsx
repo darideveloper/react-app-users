@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { countries_names } from '../js/countries'
 import Input from './Input'
 import Button from './Button'
-import DropDown from './Select'
+import Select from './Select'
 import {get_roles} from '../js/api'
 
 export default function SignUp() {
@@ -74,16 +74,18 @@ export default function SignUp() {
                                 minLength={10}
                                 required={true}
                             />
-                            <DropDown
+                            <Select
                                 id='country'
                                 data={countries_names}
                                 value='United States'
+                                label="Country"
                                 required={true}
                             />
-                            <DropDown
+                            <Select
                                 id='rol'
                                 data={roles}
                                 value='Standard'
+                                label="Rol"
                                 required={true}
                             />
                             <Input
