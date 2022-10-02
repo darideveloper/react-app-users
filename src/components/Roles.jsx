@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { get_pages, get_roles } from '../js/api'
+import { get_pages, get_roles_pages } from '../js/api'
 import CheckBox from './CheckBox'
 
 export default function Roles () {
@@ -17,9 +17,16 @@ export default function Roles () {
 
     // Get rikes from api
     useEffect (() => {
-        get_roles()
-            .then ((roles) => setRoles(roles))
+        get_roles_pages()
+            .then ((roles) => {
+                setRoles(roles)
+            })
     }, [])
+
+    function handleEdit (event) {
+        const table_row = event.target.parentNode
+
+    }
 
 
     return (
@@ -30,9 +37,9 @@ export default function Roles () {
                     <table className="table">
                         <thead>
                             <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Details</th>
+                            <th scope="col">Pages</th>
                             <th scope="col">Buttons</th>
                             </tr>
                         </thead>
@@ -40,9 +47,20 @@ export default function Roles () {
                             {roles.map ((role) => {
                                 return (
                                     <tr key={role.id}>
-                                        <th scope="row">{role.id}</th>
                                         <td>{role.name}</td>
                                         <td>{role.details}</td>
+
+                                        <td>
+                                            {
+                                                /* Generate pages tags */
+                                                Object.keys(role.pages).map ((page_key) => {
+                                                    let page = role.pages[page_key]
+                                                    return <span page={page_key} className='p-1' key={page_key}>{page}</span>
+                                                })
+                                            }
+                                        </td>
+
+
                                         <td>
                                             <button type="button" className="btn btn-primary m-1">Edit</button>
                                             <button type="button" className="btn btn-danger m-1">Delete</button>

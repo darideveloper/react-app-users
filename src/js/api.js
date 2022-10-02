@@ -7,15 +7,47 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 export async function get_roles () {
-
-    // const pass1 = encrypt("alice1999++")
-    // console.log (pass1)
     
     // Query and return all registers from "roles" table
     let { data: roles, error } = await supabase
         .from('roles')
+        .select('*')    
+
+    return roles
+}
+
+export async function get_roles_pages () {
+    // Query all registers from "roles" table
+    let { data: roles, error } = await supabase
+        .from('roles')
         .select('*')
 
+    // Get ids of rpages for each role
+    let roles_ids = []
+    for (let role of roles) {
+        let { data: roles_users, error } = await supabase
+            .from('roles_users')
+            .select('page_id')
+            .eq('rol_id', role.id)
+
+        // Add new attribute to rol
+        role.pages = {}
+
+        // Save current roleid
+        roles_ids.push (role.id)
+
+        for (const role_user of roles_users) {
+            const page_id = role_user.page_id
+
+            // Get page name
+            const pages_names = await get_page_name(page_id)
+            const page_name = pages_names[0].name
+
+            // Save current pages in rol
+            role.pages[page_id] = page_name
+        }
+    }
+    
     return roles
 }
 
@@ -25,16 +57,27 @@ export async function get_user_password (email) {
     let { data: users, error } = await supabase
         .from('users')
         .select('password')
-        .ilike('email', email)
+        .eq('email', email)
 
     return users
 }
 
 export async function get_pages () {
-    // Query and return all registers from "roles" table
+    // Query and return all registers from "pages" table
     let { data: pages, error } = await supabase
         .from('pages')
         .select('*')
+
+    return pages
+
+}
+
+export async function get_page_name (page_id) {
+    // Query and return name column of registers from "pages" table
+    let { data: pages, error } = await supabase
+        .from('pages')
+        .select('name')
+        .eq ('id', page_id)
 
     return pages
 
