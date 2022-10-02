@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 
 export default function DropDown ({ id, data, value, required }) {
-    console.log (value)
     return (
         <div className="mb-3">
             <label htmlFor={id} className="form-label">Country</label>
