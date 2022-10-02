@@ -10,7 +10,7 @@ export function encrypt (plainText) {
         padding: CryptoJS.pad.Pkcs7
     });
 
-    return encrypted + "";
+    return encrypted + ""
 }
 
 export function decrypt (cipher) {
@@ -23,5 +23,5 @@ export function decrypt (cipher) {
         padding: CryptoJS.pad.Pkcs7
     });
 
-    return plainText.toString(CryptoJS.enc.Utf8);
+    return plainText.toString(CryptoJS.enc.Utf8)
 }

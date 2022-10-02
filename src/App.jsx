@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
 import { ScreenContext } from './context/ScreenContext'
+import { eraseCookie } from './js/cookies'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Header from './components/Header'
@@ -9,7 +10,7 @@ function App() {
     // const [count, setCount] = useState(0)
 
     // Get context
-    const { user, loading } = useContext(UserContext)
+    const { user, setUser, loading } = useContext(UserContext)
     const { screen, setScreen } = useContext(ScreenContext)
 
     // Return loading spinner
@@ -25,22 +26,8 @@ function App() {
         )
     }
 
-    // Get current page from context and show it
-    if (user) {
-        // Loaged pages
-
-        return (
-            <>
-                <Header></Header>
-                <div className='container'>
-                    <h1 className='text-center'>Users App</h1>
-                </div>
-            </>
-
-        )
-    } else {
-        // No loged pages
-
+    // return no logged screens
+    if (! user) {
         if (['home', 'login'].includes(screen)) {
             return (
                 <>
@@ -65,6 +52,29 @@ function App() {
             )
         }
     }
+
+    // Logout when user change screen to "logout"
+    if (screen == "logout") {
+        // Delete user in cookies
+        eraseCookie ("user")
+
+        // Delete user in context
+        setUser (null)
+
+        // Update current screen
+        setScreen ("login")
+    }
+    
+    // return home page as default
+    return (
+        <>
+            <Header></Header>
+            <div className='container'>
+                <h1 className='text-center'>Users App</h1>
+            </div>
+        </>
+
+    )
 }
 
 export default App
