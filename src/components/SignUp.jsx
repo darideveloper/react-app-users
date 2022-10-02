@@ -3,8 +3,20 @@ import { countries_names } from '../js/countries'
 import Input from './Input'
 import Button from './Button'
 import DropDown from './Select'
+import {get_roles} from '../js/api'
 
-export default function SignUp({ roles }) {
+export default function SignUp() {
+
+    // Query rols from database ans save as state
+    const [roles, setRoles] = useState([])
+    
+    useEffect (() => {
+        get_roles()
+            .then ((roles) => roles.map ((role) => role.name))
+            .then ((rol_names) => setRoles(rol_names))
+    }, [])
+
+    // States for inputs values
     const [pass1, setPass1] = useState('')
     const [pass2, setPass2] = useState('')
 

@@ -3,10 +3,7 @@ import App from './App'
 import ReactDOM from 'react-dom/client'
 import { UserContextProvider } from './context/UserContext'
 import { ScreenContextProvider } from './context/ScreenContext'
-import {get_roles} from './js/api'
 
-const roles = get_roles()
-console.log (roles)
 
 // Import bootstrap
 import './css/custom.css'

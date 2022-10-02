@@ -12,14 +12,6 @@ function App() {
     const { user } = useContext(UserContext)
     const { screen, setScreen } = useContext(ScreenContext)
 
-    const roles = [
-        'Admin',
-        'Standard',
-        'Publisher',
-        'Support',
-        'Vendor',
-    ]
-
     // Get current page from context and show it
     if (user) {
         ;<h1>Home page</h1>
@@ -42,7 +34,7 @@ function App() {
                 <>
                     <Header></Header>
                     <div className='container'>
-                        <SignUp roles={roles}></SignUp>
+                        <SignUp></SignUp>
                     </div>
                 </>
             )
