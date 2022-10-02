@@ -20,41 +20,6 @@ export async function get_roles () {
     return roles
 }
 
-export async function get_roles_pages () {
-    // Query all registers from "roles" table
-    let { data: roles, error } = await supabase
-        .from('roles')
-        .select('*')
-
-    // Get ids of rpages for each role
-    let roles_ids = []
-    for (let role of roles) {
-        let { data: roles_users, error } = await supabase
-            .from('roles_users')
-            .select('page_id')
-            .eq('rol_id', role.id)
-
-        // Add new attribute to rol
-        role.pages = {}
-
-        // Save current roleid
-        roles_ids.push (role.id)
-
-        for (const role_user of roles_users) {
-            const page_id = role_user.page_id
-
-            // Get page name
-            const pages_names = await get_page_name(page_id)
-            const page_name = pages_names[0].name
-
-            // Save current pages in rol
-            role.pages[page_id] = page_name
-        }
-    }
-    
-    return roles
-}
-
 export async function save_role (name, details) {
     const { data, error } = await supabase
         .from('roles')
@@ -108,8 +73,50 @@ export async function get_page_name (page_id) {
 
 }
 
-export async function sign_up() {
+// -------------------
+// ROLES PAGES QUERIES
+// -------------------
+
+
+export async function get_roles_pages () {
+    // Query all registers from "roles" table
+    let { data: roles, error } = await supabase
+        .from('roles')
+        .select('*')
+
+    // Get ids of rpages for each role
+    let roles_ids = []
+    for (let role of roles) {
+        let { data: roles_users, error } = await supabase
+            .from('roles_pages')
+            .select('page_id')
+            .eq('rol_id', role.id)
+
+        // Add new attribute to rol
+        role.pages = {}
+
+        // Save current roleid
+        roles_ids.push (role.id)
+
+        for (const role_user of roles_users) {
+            const page_id = role_user.page_id
+
+            // Get page name
+            const pages_names = await get_page_name(page_id)
+            const page_name = pages_names[0].name
+
+            // Save current pages in rol
+            role.pages[page_id] = page_name
+        }
+    }
+    
+    return roles
+}
+
+export async function save_roles_pages (pages) {
     const user = supabase.auth.user()
 
-    console.log (user)
+    const { data, error } = await supabase
+        .from('roles_pages')
+        .insert(pages)
 }

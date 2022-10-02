@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { get_pages, get_roles_pages, save_role, sign_up } from '../js/api'
+import { get_pages, get_roles_pages, save_role, save_roles_pages } from '../js/api'
 import CheckBox from './CheckBox'
 
 export default function Roles () {
@@ -29,7 +29,6 @@ export default function Roles () {
     }
 
     function handleSubmit (event) {
-        sign_up ()
 
         // No submit form
         event.preventDefault()
@@ -39,7 +38,6 @@ export default function Roles () {
         const input_pages = document.querySelectorAll (".page > input:checked")
         for (const input_page of input_pages) {
             const page_name = input_page.id
-            console.log (page_name)
 
             // Get and sdve page id
             pages_ids = pages_ids.concat (
@@ -49,15 +47,31 @@ export default function Roles () {
         }      
 
         if (form_type == "Add") {
+
             // Calculate id of the new register
-            const rol_id = Math.max (roles) + 1
+            const rol_id = Math.max (...roles.map((role) => role.id)) + 1
+
+            // Format registers for the table 'roles_pages'
+            const roles_pages = pages_ids.map ((page_id) => {
+                return {
+                    "rol_id": rol_id,
+                    "page_id": page_id
+                }
+            })
+
             
             // Save rol in database
             save_role(name, details).then (
-                // refresh component
-                setUpdate (update + 1)
+                // Save roles pages in database
+                save_roles_pages (roles_pages).then (
+                    // refresh component
+                    setUpdate (update + 1)
+                )
             )
         }
+
+        // Clean form after changes
+        event.target.reset()
 
     } 
 
