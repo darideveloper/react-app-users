@@ -33,13 +33,22 @@ export async function save_role (name, details) {
     return (data, error)
 }
 
-export async function update_rol (id, data_save) {
+export async function update_role (id, data_save) {
     const { data, error } = await supabase
         .from('roles')
         .update(data_save)
         .eq('id', id)
 
     return (data, error)
+}
+
+export async function delete_role (id) {
+    const { data, error } = await supabase
+        .from('roles')
+        .delete()
+        .eq('id', id)
+
+        return (data, error)
 }
 
 // -------------------
@@ -99,4 +108,16 @@ export async function save_roles_pages (roles_pages) {
     const { data, error } = await supabase
         .from('roles_pages')
         .insert(roles_pages)
+
+    return data, error
 }
+
+export async function delete_roles_pages_in (ids) {
+    const { data, error } = await supabase
+        .from('roles_pages')
+        .delete()
+        .in('id', ids)
+
+    return (data, error)
+}
+

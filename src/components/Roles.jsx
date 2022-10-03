@@ -5,7 +5,9 @@ import {
     get_roles_pages,
     save_role,
     save_roles_pages,
-    update_rol,
+    update_role,
+    delete_role,
+    delete_roles_pages_in
 } from '../js/api'
 import CheckBox from './CheckBox'
 import Loading from './Loading'
@@ -93,7 +95,7 @@ export default function Roles() {
 
             // Update rol in database
             const rol_data = { name, details }
-            update_rol(role_id, rol_data).then(() => {
+            update_role(role_id, rol_data).then(() => {
                 // Restart roles for update
                 setRoles([])
             })
@@ -109,7 +111,6 @@ export default function Roles() {
     function handleEdit(event) {
         // Get rol data
         const table_row = event.target.parentNode.parentNode
-        console.log(table_row)
         const role_id = table_row.querySelector('.id').innerHTML
         const role_name = table_row.querySelector('.name').innerHTML
         const role_details = table_row.querySelector('.details').innerHTML
@@ -128,6 +129,27 @@ export default function Roles() {
 
         // Update form type state
         setFormType('Update')
+    }
+
+    function hadleDelete (event) {
+        // Get id for the current rol
+        const table_row = event.target.parentNode.parentNode
+        const role_id = table_row.querySelector('.id').innerHTML
+
+        // Get ids form table 'roles pages'
+        const roles_pages_match = roles_pages.filter ((role_pages) => role_pages.role_id == role_id)
+        const roles_pages_ids = roles_pages_match.map ((role_pages) => role_pages.id)
+
+        // Delete role
+        delete_role(role_id).then (() => {
+            // Delete roles_pages
+            delete_roles_pages_in(roles_pages_ids).then (() => {
+                // Restart roles for update
+                setRoles([])
+            })
+        })
+
+
     }
 
     // Show results or loading in table
@@ -184,6 +206,7 @@ export default function Roles() {
                             <button
                                 type='button'
                                 className='btn btn-danger m-1'
+                                onClick={function(event) {hadleDelete(event)}}
                             >
                                 Delete
                             </button>
