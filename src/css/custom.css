@@ -12,6 +12,10 @@ header {
   height: calc(100vh - 100px);
 }
 
+.table-results thead tr th:first-child {
+  display: none;
+}
+
 /*!
  * Bootstrap  v5.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

@@ -7,10 +7,14 @@ import {
     save_roles_pages,
     update_role,
     delete_role,
-    delete_roles_pages_in
+    delete_roles_pages_in,
 } from '../js/api'
 import CheckBox from './CheckBox'
-import Loading from './Loading'
+import Input from './Input'
+import Table from './Table'
+import TableLoading from './TableLoading'
+import TableButton from './TableButton'
+import TableTags from './TableTags'
 
 export default function Roles() {
     // Pages states
@@ -90,27 +94,28 @@ export default function Roles() {
                 })
             })
         } else if (form_type == 'Update') {
-
-            
             const role_id = update_id
             const new_roles_pages = get_formated_roles_pages(pages_ids, role_id)
-            
+
             // Delete last registers
-            const roles_pages_last = roles_pages.filter ((role_page) => role_page.role_id == role_id)
-            const roles_pages_last_ids = roles_pages_last.map ((role_page) => role_page.id)
-            delete_roles_pages_in (roles_pages_last_ids).then (() => {
+            const roles_pages_last = roles_pages.filter(
+                (role_page) => role_page.role_id == role_id
+            )
+            const roles_pages_last_ids = roles_pages_last.map(
+                (role_page) => role_page.id
+            )
+            delete_roles_pages_in(roles_pages_last_ids).then(() => {
                 // Update rol in database
                 const rol_data = { name, details }
                 update_role(role_id, rol_data).then(() => {
                     // Insert new roles pages in database
-                    save_roles_pages (new_roles_pages).then (() => {
+                    save_roles_pages(new_roles_pages).then(() => {
                         // Restart roles and roles pages for update
                         setRoles([])
                         setRolesPages([])
                     })
                 })
             })
-
         }
 
         // Clean form after changes
@@ -136,11 +141,13 @@ export default function Roles() {
         details_input.value = role_details
 
         // Update states
-        setName (role_name)
-        setDetails (role_details)
+        setName(role_name)
+        setDetails(role_details)
 
         // Disable all checkboxes
-        const checkboxes_inputs = document.querySelectorAll ('input[type="checkbox"]')
+        const checkboxes_inputs = document.querySelectorAll(
+            'input[type="checkbox"]'
+        )
         for (const checkbox of checkboxes_inputs) {
             checkbox.checked = false
         }
@@ -149,7 +156,7 @@ export default function Roles() {
         for (const page of role_pages) {
             const page_id = page.innerHTML
             const selector_checkbox = `input#${page_id}`
-            const checkbox = document.querySelector (selector_checkbox)
+            const checkbox = document.querySelector(selector_checkbox)
             checkbox.checked = true
         }
 
@@ -160,31 +167,43 @@ export default function Roles() {
         setFormType('Update')
     }
 
-    function hadleDelete (event) {
+    function hadleDelete(event) {
         // Get id for the current rol
         const table_row = event.target.parentNode.parentNode
         const role_id = table_row.querySelector('.id').innerHTML
 
         // Get ids form table 'roles pages'
-        const roles_pages_match = roles_pages.filter ((role_pages) => role_pages.role_id == role_id)
-        const roles_pages_ids = roles_pages_match.map ((role_pages) => role_pages.id)
+        const roles_pages_match = roles_pages.filter(
+            (role_pages) => role_pages.role_id == role_id
+        )
+        const roles_pages_ids = roles_pages_match.map(
+            (role_pages) => role_pages.id
+        )
 
         // Delete role
-        delete_role(role_id).then (() => {
+        delete_role(role_id).then(() => {
             // Delete roles_pages
-            delete_roles_pages_in(roles_pages_ids).then (() => {
+            delete_roles_pages_in(roles_pages_ids).then(() => {
                 // Restart roles for update
                 setRoles([])
             })
         })
+    }
 
+    function handleCancel(event) {
+        // Reset state to add
+        setFormType('Add')
 
+        // Reset form
+        event.target.parentNode.reset()
+
+        // Reset update id
+        setUpdateId(0)
     }
 
     // Show results or loading in table
     let results
     if (roles.length && pages.length && roles_pages) {
-        // Generate results table
 
         // Generate results table
         results =
@@ -199,61 +218,50 @@ export default function Roles() {
                     .filter((page) => pages_ids.includes(page.id))
                     .map((page) => [page.id, page.name])
 
+                // Return table row
                 return (
                     <tr key={role.id}>
                         <td className='id d-none'>{role.id}</td>
                         <td className='name'>{role.name}</td>
                         <td className='details'>{role.details}</td>
 
+                        {/* Pages available for the user */}
                         <td className='pages'>
-                            {pages_names_ids.map((page) => {
-                                const page_id = page[0]
-                                const page_name = page[1]
-
-                                return (
-                                    <span
-                                        page={page_id}
-                                        className='p-1'
-                                        key={page_id}
-                                    >
-                                        {page_name}
-                                    </span>
-                                )
-                            })}
+                            <TableTags value={pages_names_ids} />
                         </td>
 
+                        {/* Delete and edit buttons */}
                         <td className='button'>
-                            <button
-                                type='button'
-                                className='btn btn-outline-primary m-1'
+                            <TableButton
+                                value='edit'
                                 onClick={function (event) {
                                     handleEdit(event)
                                 }}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                type='button'
-                                className='btn btn-danger m-1'
-                                onClick={function(event) {hadleDelete(event)}}
-                            >
-                                Delete
-                            </button>
+                            />
+                            <TableButton
+                                value='delete'
+                                onClick={function (event) {
+                                    hadleDelete(event)
+                                }}
+                            />
                         </td>
                     </tr>
                 )
             })
     } else {
         // Generate loading spinner
-        results = (
-            <tr>
-                <td
-                    colSpan='4'
-                    className='text-center p-5'
-                >
-                    <Loading />
-                </td>
-            </tr>
+        results = <TableLoading col_span={4} />
+    }
+
+    let cancel_button = ''
+    if (form_type == 'Update') {
+        cancel_button = (
+            <TableButton
+                value='cancel'
+                onClick={function (event) {
+                    handleCancel(event)
+                }}
+            />
         )
     }
 
@@ -267,44 +275,30 @@ export default function Roles() {
                         handleSubmit(event)
                     }}
                 >
-                    <div className='mb-3'>
-                        <label
-                            htmlFor='name'
-                            className='form-label'
-                        >
-                            Name
-                        </label>
-                        <input
-                            type='text'
-                            className='form-control'
-                            id='name'
-                            placeholder='Admin'
-                            required
-                            onChange={function (event) {
-                                setName(event.target.value)
-                            }}
-                        />
-                    </div>
-                    <div className='mb-3'>
-                        <label
-                            htmlFor='details'
-                            className='form-label'
-                        >
-                            Details
-                        </label>
-                        <input
-                            type='text'
-                            className='form-control'
-                            id='details'
-                            placeholder='About the rol...'
-                            required
-                            onChange={function (event) {
-                                setDetails(event.target.value)
-                            }}
-                        />
-                    </div>
+                    <Input
+                        id='name'
+                        label='Name'
+                        type='text'
+                        placeholder='Admin'
+                        required={true}
+                        onChange={function (event) {
+                            setName(event.target.value)
+                        }}
+                    />
+                    <Input
+                        id='details'
+                        label='Details'
+                        type='text'
+                        placeholder='About the rol...'
+                        required={true}
+                        onChange={function (event) {
+                            setDetails(event.target.value)
+                        }}
+                    />
+
                     <h2 className='h5'>Pages permisions</h2>
 
+                    {/* render checkboxes */}
                     {pages.map((page) => (
                         <CheckBox
                             key={page.id}
@@ -314,53 +308,18 @@ export default function Roles() {
                         />
                     ))}
 
-                    <button
-                        type='submit'
-                        className='btn btn-primary mt-4 px-5 m-1'
-                    >
-                        {form_type}
-                    </button>
+                    <TableButton
+                        value='add'
+                        type="submit"
+                    />
 
-                    {form_type == 'Update' ? (
-                        <button
-                            type='button'
-                            className='btn btn-secondary mt-4 px-5 m-1'
-                            onClick={function (event) {
-                                // Reset state to add
-                                setFormType('Add')
-
-                                // Reset form
-                                event.target.parentNode.reset()
-
-                                // Reset update id
-                                setUpdateId(0)
-                            }}
-                        >
-                            Cancel
-                        </button>
-                    ) : (
-                        ''
-                    )}
+                    {/* Insert cancel button for update */}
+                    {cancel_button}
                 </form>
-                <div className='table-wrapper col-12 col-lg-8 p-4'>
-                    <table className='table'>
-                        <thead>
-                            <tr>
-                                <th
-                                    scope='col'
-                                    className='d-none'
-                                >
-                                    id
-                                </th>
-                                <th scope='col'>Name</th>
-                                <th scope='col'>Details</th>
-                                <th scope='col'>Pages</th>
-                                <th scope='col'>Buttons</th>
-                            </tr>
-                        </thead>
-                        <tbody>{results}</tbody>
-                    </table>
-                </div>
+                <Table
+                    headers={['id', 'name', 'details', 'pages', 'buttons']}
+                    body={results}
+                />
             </div>
         </section>
     )
