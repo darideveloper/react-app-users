@@ -33,6 +33,15 @@ export async function save_role (name, details) {
     return (data, error)
 }
 
+export async function update_rol (id, data_save) {
+    const { data, error } = await supabase
+        .from('roles')
+        .update(data_save)
+        .eq('id', id)
+
+    return (data, error)
+}
+
 // -------------------
 // USER QUERIES
 // -------------------
