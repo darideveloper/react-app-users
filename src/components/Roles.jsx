@@ -114,15 +114,34 @@ export default function Roles() {
         const role_id = table_row.querySelector('.id').innerHTML
         const role_name = table_row.querySelector('.name').innerHTML
         const role_details = table_row.querySelector('.details').innerHTML
-        const role_pages = table_row.querySelector('.pages > span')
+        const role_pages = table_row.querySelectorAll('.pages > span')
+        console.log (role_pages)
 
-        // Placa data in form
+        // Placa name and details in form
         const name_input = document.querySelector('#name')
         const details_input = document.querySelector('#details')
-        const pages_input = document.querySelector('input.page')
 
         name_input.value = role_name
         details_input.value = role_details
+
+        // Update states
+        setName (role_name)
+        setDetails (role_details)
+
+        // Disable all checkboxes
+        const checkboxes_inputs = document.querySelectorAll ('input[type="checkbox"]')
+        for (const checkbox of checkboxes_inputs) {
+            checkbox.checked = false
+        }
+
+        // Activate checkboxes in form
+        for (const page of role_pages) {
+            const page_id = page.innerHTML
+            const selector_checkbox = `input#${page_id}`
+            const checkbox = document.querySelector (selector_checkbox)
+            console.log ({checkbox, selector_checkbox})
+            checkbox.checked = true
+        }
 
         // Save update id in state
         setUpdateId(role_id)
