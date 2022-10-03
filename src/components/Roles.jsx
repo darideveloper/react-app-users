@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {
     get_pages,
+    get_roles,
     get_roles_pages,
     save_role,
     save_roles_pages,
@@ -13,6 +14,7 @@ export default function Roles() {
     // Pages states
     const [pages, setPages] = useState([])
     const [roles, setRoles] = useState([])
+    const [roles_pages, setRolesPages] = useState([])
     const [form_type, setFormType] = useState('Add')
     const [update_id, setUpdateId] = useState(0)
     const [name, setName] = useState(0)
@@ -25,22 +27,28 @@ export default function Roles() {
         }
     }, [pages])
 
-    // Get rikes from api
+    // Get roles from api
     useEffect(() => {
         if (roles.length == 0) {
-            console.log ("updating...")
-            get_roles_pages().then((roles) => setRoles(roles))
+            get_roles().then((roles) => setRoles(roles))
         }
     }, [roles])
+
+    // Get roles from api
+    useEffect(() => {
+        if (roles_pages.length == 0) {
+            get_roles_pages().then((roles_pages) => setRolesPages(roles_pages))
+        }
+    }, [roles_pages])
 
     // Update component when form type change
     useEffect(() => {}, [form_type])
 
-    function get_formated_roles_pages (pages_ids, rol_id) {
+    function get_formated_roles_pages(pages_ids, role_id) {
         // Format registers for the table 'roles_pages'
         const roles_pages = pages_ids.map((page_id) => {
             return {
-                rol_id: rol_id,
+                role_id: role_id,
                 page_id: page_id,
             }
         })
@@ -68,26 +76,26 @@ export default function Roles() {
 
         if (form_type == 'Add') {
             // get rol id and formated roles pages
-            const rol_id = Math.max(...roles.map((role) => role.id)) + 1
-            const roles_pages = get_formated_roles_pages(pages_ids, rol_id)
+            const role_id = Math.max(...roles.map((role) => role.id)) + 1
+            const roles_pages = get_formated_roles_pages(pages_ids, role_id)
 
             // Save rol in database
             save_role(name, details).then((data) => {
                 // Save roles pages in database
-                save_roles_pages(roles_pages).then( (data) => {
+                save_roles_pages(roles_pages).then((data) => {
                     // Restart roles for update
-                    setRoles ([])
+                    setRoles([])
                 })
             })
         } else if (form_type == 'Update') {
-            const rol_id = update_id
-            const roles_pages = get_formated_roles_pages(pages_ids, rol_id)
+            const role_id = update_id
+            const roles_pages = get_formated_roles_pages(pages_ids, role_id)
 
             // Update rol in database
-            const rol_data = {name, details}
-            update_rol (rol_id, rol_data).then (() => {
+            const rol_data = { name, details }
+            update_rol(role_id, rol_data).then(() => {
                 // Restart roles for update
-                setRoles ([])
+                setRoles([])
             })
         }
 
@@ -95,7 +103,7 @@ export default function Roles() {
         event.target.reset()
 
         // Reset form type
-        setFormType ("Add")
+        setFormType('Add')
     }
 
     function handleEdit(event) {
@@ -115,8 +123,8 @@ export default function Roles() {
         name_input.value = role_name
         details_input.value = role_details
 
-        // Save update id in state 
-        setUpdateId (role_id)
+        // Save update id in state
+        setUpdateId(role_id)
 
         // Update form type state
         setFormType('Update')
@@ -124,67 +132,78 @@ export default function Roles() {
 
     // Show results or loading in table
     let results
-    if (roles.length == 0) {
+    if (roles.length && pages.length && roles_pages) {
+        // Generate results table
+
+        // Generate results table
+        results =
+            // Map roles
+            roles.map((role) => {
+                // Get pages
+                const pages_objs = roles_pages.filter(
+                    (role_pages) => role_pages.role_id == role.id
+                )
+                const pages_ids = pages_objs.map((page) => page.page_id)
+                const pages_names_ids = pages
+                    .filter((page) => pages_ids.includes(page.id))
+                    .map((page) => [page.id, page.name])
+
+                return (
+                    <tr key={role.id}>
+                        <td className='id d-none'>{role.id}</td>
+                        <td className='name'>{role.name}</td>
+                        <td className='details'>{role.details}</td>
+
+                        <td className='pages'>
+                            {pages_names_ids.map((page) => {
+                                const page_id = page[0]
+                                const page_name = page[1]
+
+                                return (
+                                    <span
+                                        page={page_id}
+                                        className='p-1'
+                                        key={page_id}
+                                    >
+                                        {page_name}
+                                    </span>
+                                )
+                            })}
+                        </td>
+
+                        <td className='button'>
+                            <button
+                                type='button'
+                                className='btn btn-outline-primary m-1'
+                                onClick={function (event) {
+                                    handleEdit(event)
+                                }}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                type='button'
+                                className='btn btn-danger m-1'
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                )
+            })
+    } else {
+        // Generate loading spinner
         results = (
             <tr>
-                <td colSpan="4" className='text-center p-5'>
+                <td
+                    colSpan='4'
+                    className='text-center p-5'
+                >
                     <Loading />
                 </td>
             </tr>
         )
-    } else {
-        results = (
-            roles.map((role) => {
-            return (
-                <tr key={role.id}>
-                    <td className='id d-none'>{role.id}</td>
-                    <td className='name'>{role.name}</td>
-                    <td className='details'>
-                        {role.details}
-                    </td>
-    
-                    <td className='pages'>
-                        {
-                            /* Generate pages tags */
-                            Object.keys(role.pages).map(
-                                (page_key) => {
-                                    let page =
-                                        role.pages[page_key]
-                                    return (
-                                        <span
-                                            page={page_key}
-                                            className='p-1'
-                                            key={page_key}
-                                        >
-                                            {page}
-                                        </span>
-                                    )
-                                }
-                            )
-                        }
-                    </td>
-    
-                    <td className='button'>
-                        <button
-                            type='button'
-                            className='btn btn-outline-primary m-1'
-                            onClick={function (event) {
-                                handleEdit(event)
-                            }}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            type='button'
-                            className='btn btn-danger m-1'
-                        >
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            )}
-        )
-    )}
+    }
 
     return (
         <section className='roles-wrapper'>
@@ -209,7 +228,9 @@ export default function Roles() {
                             id='name'
                             placeholder='Admin'
                             required
-                            onChange={function (event) {setName (event.target.value)}}
+                            onChange={function (event) {
+                                setName(event.target.value)
+                            }}
                         />
                     </div>
                     <div className='mb-3'>
@@ -225,13 +246,14 @@ export default function Roles() {
                             id='details'
                             placeholder='About the rol...'
                             required
-                            onChange={function (event) {setDetails (event.target.value)}}
+                            onChange={function (event) {
+                                setDetails(event.target.value)
+                            }}
                         />
                     </div>
                     <h2 className='h5'>Pages permisions</h2>
 
-                    {
-                        pages.map((page) => (
+                    {pages.map((page) => (
                         <CheckBox
                             key={page.id}
                             class_group='page'
@@ -252,20 +274,21 @@ export default function Roles() {
                             type='button'
                             className='btn btn-secondary mt-4 px-5 m-1'
                             onClick={function (event) {
-
                                 // Reset state to add
                                 setFormType('Add')
 
                                 // Reset form
-                                event.target.parentNode.reset ()
+                                event.target.parentNode.reset()
 
                                 // Reset update id
-                                setUpdateId (0)
+                                setUpdateId(0)
                             }}
                         >
                             Cancel
                         </button>
-                    ) : ('')}
+                    ) : (
+                        ''
+                    )}
                 </form>
                 <div className='table-wrapper col-12 col-lg-8 p-4'>
                     <table className='table'>
@@ -283,9 +306,7 @@ export default function Roles() {
                                 <th scope='col'>Buttons</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {results}
-                        </tbody>
+                        <tbody>{results}</tbody>
                     </table>
                 </div>
             </div>
