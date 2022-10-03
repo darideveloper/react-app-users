@@ -79,26 +79,38 @@ export default function Roles() {
         if (form_type == 'Add') {
             // get rol id and formated roles pages
             const role_id = Math.max(...roles.map((role) => role.id)) + 1
-            const roles_pages = get_formated_roles_pages(pages_ids, role_id)
+            const new_roles_pages = get_formated_roles_pages(pages_ids, role_id)
 
             // Save rol in database
             save_role(name, details).then((data) => {
                 // Save roles pages in database
-                save_roles_pages(roles_pages).then((data) => {
+                save_roles_pages(new_roles_pages).then((data) => {
                     // Restart roles for update
                     setRoles([])
                 })
             })
         } else if (form_type == 'Update') {
-            const role_id = update_id
-            const roles_pages = get_formated_roles_pages(pages_ids, role_id)
 
-            // Update rol in database
-            const rol_data = { name, details }
-            update_role(role_id, rol_data).then(() => {
-                // Restart roles for update
-                setRoles([])
+            
+            const role_id = update_id
+            const new_roles_pages = get_formated_roles_pages(pages_ids, role_id)
+            
+            // Delete last registers
+            const roles_pages_last = roles_pages.filter ((role_page) => role_page.role_id == role_id)
+            const roles_pages_last_ids = roles_pages_last.map ((role_page) => role_page.id)
+            delete_roles_pages_in (roles_pages_last_ids).then (() => {
+                // Update rol in database
+                const rol_data = { name, details }
+                update_role(role_id, rol_data).then(() => {
+                    // Insert new roles pages in database
+                    save_roles_pages (new_roles_pages).then (() => {
+                        // Restart roles and roles pages for update
+                        setRoles([])
+                        setRolesPages([])
+                    })
+                })
             })
+
         }
 
         // Clean form after changes
@@ -115,7 +127,6 @@ export default function Roles() {
         const role_name = table_row.querySelector('.name').innerHTML
         const role_details = table_row.querySelector('.details').innerHTML
         const role_pages = table_row.querySelectorAll('.pages > span')
-        console.log (role_pages)
 
         // Placa name and details in form
         const name_input = document.querySelector('#name')
@@ -139,7 +150,6 @@ export default function Roles() {
             const page_id = page.innerHTML
             const selector_checkbox = `input#${page_id}`
             const checkbox = document.querySelector (selector_checkbox)
-            console.log ({checkbox, selector_checkbox})
             checkbox.checked = true
         }
 
