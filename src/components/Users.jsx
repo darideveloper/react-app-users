@@ -121,8 +121,6 @@ export default function Users() {
         const country_input = document.querySelector('#country')
         const role_input = document.querySelector('#role')
 
-        console.log (first_input)
-
         first_input.value = user_first
         last_input.value = user_last
         email_input.value = user_email
@@ -169,11 +167,16 @@ export default function Users() {
     }
 
     function handleCancel(event) {
+
         // Reset state to add
         setFormType('Add')
 
         // Reset form
-        event.target.parentNode.reset()
+        event.target.parentNode.parentNode.parentNode.reset()
+
+        // set default values for country and role
+        setCountry ("United States")
+        setRole ("Standard")
 
         // Reset update id
         setUpdateId(0)
@@ -233,8 +236,9 @@ export default function Users() {
                 size={5}
                 outline={false}
                 text="Cancel"
-                type="reset"
+                type="button"
                 color="secondary"
+                onClick={function (event) {handleCancel(event)}}
             />
         )
     }
@@ -250,16 +254,6 @@ export default function Users() {
             {cancel_button}
         </>
     )
-    if (form_type == 'Update') {
-        cancel_button = (
-            <TableButton
-                value='cancel'
-                onClick={function (event) {
-                    // handleCancel(event)
-                }}
-            />
-        )
-    }
 
 
     return (

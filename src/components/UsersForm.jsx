@@ -114,7 +114,7 @@ export default function UsersForm({onSubmit, layout, buttons, onChangeFunctions,
                         }}
                     />
                     <Select
-                        id='rol'
+                        id='role'
                         data={roles}
                         value={rol_value}
                         label="Rol"
