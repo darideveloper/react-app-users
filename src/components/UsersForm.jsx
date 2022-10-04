@@ -6,7 +6,7 @@ import Select from './Select'
 import {get_roles} from '../js/api'
 import PropTypes from 'prop-types'
 
-export default function UsersForm({onSubmit, layout, buttons}) {
+export default function UsersForm({onSubmit, layout, buttons, onChangeFunctions, country_value, rol_value}) {
 
     // Query rols from database ans save as state
     const [roles, setRoles] = useState([])
@@ -61,6 +61,9 @@ export default function UsersForm({onSubmit, layout, buttons}) {
                         placeholder='John'
                         minLength={3}
                         required={true}
+                        onChange={function (event) {
+                            onChangeFunctions.setFirst (event.target.value)
+                        }}
                     />
                     <Input
                         id='last'
@@ -69,6 +72,9 @@ export default function UsersForm({onSubmit, layout, buttons}) {
                         placeholder='Doe'
                         minLength={3}
                         required={true}
+                        onChange={function (event) {
+                            onChangeFunctions.setLast (event.target.value)
+                        }}
                     />
                     <Input
                         id='email'
@@ -77,6 +83,9 @@ export default function UsersForm({onSubmit, layout, buttons}) {
                         placeholder='johndoe@gmail.com'
                         minLength={6}
                         required={true}
+                        onChange={function (event) {
+                            onChangeFunctions.setEmail (event.target.value)
+                        }}
                     />
                     <Input
                         id='phone'
@@ -85,22 +94,37 @@ export default function UsersForm({onSubmit, layout, buttons}) {
                         placeholder='555 555 1234'
                         minLength={10}
                         required={true}
+                        onChange={function (event) {
+                            onChangeFunctions.setPhone (event.target.value)
+                        }}
                     />
                 </div>
                 <div className={`col ${layout}`}>
                     <Select
                         id='country'
                         data={countries_names}
-                        value='United States'
+                        value={country_value}
                         label="Country"
                         required={true}
+                        onChange={function (value) {
+                            onChangeFunctions.setCountry (value)
+                        }}
+                        onLoad={function (value) {
+                            onChangeFunctions.setCountry (value)
+                        }}
                     />
                     <Select
                         id='rol'
                         data={roles}
-                        value='Standard'
+                        value={rol_value}
                         label="Rol"
                         required={true}
+                        onChange={function (value) {
+                            onChangeFunctions.setRole (value)
+                        }}
+                        onLoad={function (value) {
+                            onChangeFunctions.setRole (value)
+                        }}
                     />
                     <Input
                         id='password1'
@@ -109,9 +133,9 @@ export default function UsersForm({onSubmit, layout, buttons}) {
                         placeholder=''
                         minLength={8}
                         required={true}
-
-                        // Save password 1 state variable
                         onChange={function (event) {
+                            onChangeFunctions.setPassword (event.target.value)
+
                             handlePassword ()
                         }}
                     />
@@ -151,4 +175,7 @@ UsersForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     layout: PropTypes.string.isRequired,
     buttons: PropTypes.element.isRequired,
+    onChangeFunctions: PropTypes.objectOf(PropTypes.func).isRequired,
+    country_value: PropTypes.string.isRequired,
+    rol_value: PropTypes.string.isRequired
 }

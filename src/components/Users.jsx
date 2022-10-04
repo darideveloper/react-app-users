@@ -18,8 +18,13 @@ export default function Users() {
     const [roles, setRoles] = useState([])
     const [form_type, setFormType] = useState('Add')
     const [update_id, setUpdateId] = useState(0)
-    const [name, setName] = useState(0)
-    const [details, setDetails] = useState(0)
+    const [first, setFirst] = useState("")
+    const [last, setLast] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [country, setCountry] = useState("United States")
+    const [role, setRole] = useState("Standard")
+    const [password, setPassword] = useState("")
 
     // Get users from api
     useEffect(() => {
@@ -249,9 +254,20 @@ export default function Users() {
             <h1 className='text-center mb-4'>Manage users</h1>
             <div className='users row'>
                 <UsersForm 
-                    onSubmit={console.log ("submit")}
+                    onSubmit={function () {console.log ("")}}
                     layout="col-12 col-md-6"
                     buttons={buttons}
+                    onChangeFunctions={{
+                        setFirst,
+                        setLast,
+                        setEmail,
+                        setPhone, 
+                        setCountry,
+                        setRole, 
+                        setPassword
+                    }}
+                    country_value={country}
+                    rol_value={role}
                 />
                 <Table
                     headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol']}
