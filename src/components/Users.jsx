@@ -10,6 +10,7 @@ import TableLoading from './TableLoading'
 import TableButton from './TableButton'
 import TableTags from './TableTags'
 import UsersForm from './UsersForm'
+import Button from './Button'
 
 export default function Users() {
     // form and data states
@@ -206,7 +207,31 @@ export default function Users() {
         results = <TableLoading col_span={4} />
     }
 
-    let cancel_button = ''
+    // Generate buttons
+    let cancel_button = ""
+    if (form_type == 'Update') {
+        cancel_button = (
+            <Button
+                size={5}
+                outline={false}
+                text="Cancel"
+                type="reset"
+                color="secondary"
+            />
+        )
+    }
+    const buttons = (
+        <>
+            <Button
+                size={5}
+                outline={true}
+                text={form_type}
+                type="submit"
+                disabled={true}
+            />
+            {cancel_button}
+        </>
+    )
     if (form_type == 'Update') {
         cancel_button = (
             <TableButton
@@ -226,6 +251,7 @@ export default function Users() {
                 <UsersForm 
                     onSubmit={console.log ("submit")}
                     layout="col-12 col-md-6"
+                    buttons={buttons}
                 />
                 <Table
                     headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol']}

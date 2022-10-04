@@ -6,7 +6,7 @@ import Select from './Select'
 import {get_roles} from '../js/api'
 import PropTypes from 'prop-types'
 
-export default function UsersForm({onSubmit, layout}) {
+export default function UsersForm({onSubmit, layout, buttons}) {
 
     // Query rols from database ans save as state
     const [roles, setRoles] = useState([])
@@ -49,8 +49,6 @@ export default function UsersForm({onSubmit, layout}) {
 
     // Update component with error message and passwords
     useEffect (() => {}, [pass_error])
-
-
 
     return (
         <form className='mt-0' onSubmit={function (event) {onSubmit(event)}}>
@@ -134,13 +132,14 @@ export default function UsersForm({onSubmit, layout}) {
                     <p className='text-danger'>{pass_error}</p>
                 </div>
                 <div className={`col ${layout}`}>
-                    <Button
+                    {/* <Button
                         size={5}
                         outline={true}
-                        text='Submit'
+                        text={submit_text}
                         type="submit"
                         disabled={true}
-                    />
+                    /> */}
+                    {buttons}
                 </div>
             </div>
             
@@ -151,4 +150,5 @@ export default function UsersForm({onSubmit, layout}) {
 UsersForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     layout: PropTypes.string.isRequired,
+    buttons: PropTypes.element.isRequired,
 }

@@ -1,6 +1,20 @@
 import UsersForm from './UsersForm'
+import Button from './Button'
 
 export default function SignUp() {
+
+    const submit_button = (
+        <>
+            <Button
+                size={5}
+                outline={true}
+                text="Submit"
+                type="submit"
+                disabled={true}
+            />
+        </>
+    )
+
     return (
         <section className='UsersForm-wrapper mb-5'>
             <h1 className='text-center'>Sign Up</h1>
@@ -10,6 +24,7 @@ export default function SignUp() {
                         <UsersForm 
                             onSubmit={console.log ("submit")}
                             layout="col-12"
+                            buttons={submit_button}
                         />
                     </div>
                     <div className='col-12 col-md-6'>

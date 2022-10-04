@@ -18,7 +18,7 @@ export default function TableButton({ value, onClick, type}) {
     return (
         <button
             type={type}
-            className={`text-capitalize btn ${button_class} m-1`}
+            className={`text-capitalize btn ${button_class} mx-1`}
             onClick={onClick}
         >
             {value}
