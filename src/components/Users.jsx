@@ -3,7 +3,8 @@ import {
     get_users,
     get_roles,
     save_user,
-    update_user
+    update_user,
+    delete_user
 } from '../js/api'
 import CheckBox from './CheckBox'
 import Input from './Input'
@@ -135,21 +136,11 @@ export default function Users() {
         const table_row = event.target.parentNode.parentNode
         const user_id = table_row.querySelector('.id').innerHTML
 
-        // Get ids form table 'users pages'
-        const users_pages_match = users_pages.filter(
-            (user_pages) => user_pages.user_id == user_id
-        )
-        const users_pages_ids = users_pages_match.map(
-            (user_pages) => user_pages.id
-        )
 
         // Delete user
         delete_user(user_id).then(() => {
-            // Delete users_pages
-            delete_users_pages_in(users_pages_ids).then(() => {
-                // Restart users for update
-                setusers([])
-            })
+            // Restart users for update
+            setUsers([])
         })
     }
 

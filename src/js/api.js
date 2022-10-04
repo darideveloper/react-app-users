@@ -106,6 +106,15 @@ export async function update_user (id, user_data) {
     return (data, error)
 }
 
+export async function delete_user (id) {
+    const { data, error } = await supabase
+        .from('users')
+        .delete()
+        .eq('id', id)
+
+    return (data, error)
+}
+
 // -------------------
 // PAGES QUERIES
 // -------------------
