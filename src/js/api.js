@@ -95,6 +95,17 @@ export async function save_user (user_data) {
     return (data, error)
 }
 
+export async function update_user (id, user_data) {
+    const { data, error } = await supabase
+        .from('users')
+        .update(user_data)
+        .eq('id', id)
+
+    console.log (error)
+
+    return (data, error)
+}
+
 // -------------------
 // PAGES QUERIES
 // -------------------
