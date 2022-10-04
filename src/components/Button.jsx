@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function Button({size, outline, text, type, color, disabled}) {
+export default function Button({size, outline, text, type, color, disabled, onClick}) {
 
     if (! color) {
         color = "primary"
@@ -16,6 +16,7 @@ export default function Button({size, outline, text, type, color, disabled}) {
             type={type}
             className={`btn px-${size} mt-4 mx-2 ${button_style}`}
             disabled={disabled}
+            onClick={onClick}
         >
             {text}
         </button>
@@ -29,4 +30,5 @@ Button.propTypes = {
     type: PropTypes.string.isRequired,
     color: PropTypes.string,
     disabled: PropTypes.bool,
+    onClick: PropTypes.func,
 }

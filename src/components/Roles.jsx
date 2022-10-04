@@ -15,6 +15,7 @@ import Table from './Table'
 import TableLoading from './TableLoading'
 import TableButton from './TableButton'
 import TableTags from './TableTags'
+import Button from './Button'
 
 export default function Roles() {
     // form and data states
@@ -253,17 +254,39 @@ export default function Roles() {
         results = <TableLoading col_span={4} />
     }
 
-    let cancel_button = ''
+    // Generate buttons
+    let cancel_button = ""
     if (form_type == 'Update') {
         cancel_button = (
-            <TableButton
-                value='cancel'
+            <Button
+                size={5}
+                outline={false}
+                text="Cancel"
+                type="button"
+                color="secondary"
                 onClick={function (event) {
-                    handleCancel(event)
-                }}
+
+                    // Restart form type
+                    setFormType ("Add")
+
+                    // Clean form
+                    event.target.parentNode.reset()
+                    }
+                }
             />
         )
     }
+    const buttons = (
+        <>
+            <Button
+                size={5}
+                outline={true}
+                text={form_type}
+                type="submit"
+            />
+            {cancel_button}
+        </>
+    )
 
     return (
         <section className='roles-wrapper'>
@@ -308,13 +331,7 @@ export default function Roles() {
                         />
                     ))}
 
-                    <TableButton
-                        value='add'
-                        type="submit"
-                    />
-
-                    {/* Insert cancel button for update */}
-                    {cancel_button}
+                    {buttons}
                 </form>
                 <Table
                     headers={['id', 'name', 'details', 'pages', 'buttons']}

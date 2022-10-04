@@ -6,8 +6,6 @@ export default function TableButton({ value, onClick, type}) {
     const buttons_classes = {
         "delete": 'btn-danger',
         "edit": "btn-outline-primary",
-        "add": "btn-primary px-5 mt-4",
-        "cancel": "btn-secondary px-5 mt-4"
     }
     let button_class = buttons_classes[value.toLowerCase()]
 
