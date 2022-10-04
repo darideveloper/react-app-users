@@ -319,6 +319,7 @@ export default function Roles() {
                 <Table
                     headers={['id', 'name', 'details', 'pages', 'buttons']}
                     body={results}
+                    layout="col-12 col-lg-8"
                 />
             </div>
         </section>

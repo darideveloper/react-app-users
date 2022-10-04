@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 
-export default function Table ({headers, body}) {
+export default function Table ({headers, body, layout}) {
     return (
 
-        <div className='table-wrapper col-12 col-lg-8 p-4'>
+        <div className={`table-wrapper ${layout} p-4`}>
             <table className='table table-results'>
                 <thead>
                     <tr>
@@ -21,4 +21,5 @@ export default function Table ({headers, body}) {
 Table.propTypes = {
     headers: PropTypes.array.isRequired,
     body: PropTypes.any.isRequired,
+    layout: PropTypes.string.isRequired,
 }

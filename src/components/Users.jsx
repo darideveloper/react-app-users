@@ -262,6 +262,7 @@ export default function Users() {
                 <Table
                     headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol']}
                     body={results}
+                    layout="col-12"
                 />
             </div>
         </section>
