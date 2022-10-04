@@ -27,7 +27,6 @@ function App() {
 
     // return no logged screens
     if (! user) {
-    // if (false) {
         if (['home', 'login'].includes(screen)) {
             return (
                 <>

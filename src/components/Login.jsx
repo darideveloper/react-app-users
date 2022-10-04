@@ -6,6 +6,7 @@ import { decrypt } from '../js/crypt'
 import { setCookie } from '../js/cookies'
 import Input from './Input'
 import Button from './Button'
+import Loading from './Loading'
 
 export default function Login({ onClickLink }) {
 
@@ -16,58 +17,60 @@ export default function Login({ onClickLink }) {
     // States
     const [email, setEmail] = useState('')
     const [password, setPassoword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
 
-    function displayErrorMessage (show) {
-        // Show or hide error message
-
-        // Find error message
-        const error_message = document.querySelector ("#error")
-
-        // Manage classes for show or hide
-        if (show) {
-            error_message.classList.remove ("d-none")
-        } else {
-            error_message.classList.add ("d-none")
-        }
-    }
+    // Update screen with loading status
+    useEffect (() => {}, [loading])
 
     function handleSubmit (event) {
-        // Dont submit form, get inputs and query password in database
+        // Show loading page
+        setLoading (true)
 
         // Dont submit form
         event.preventDefault ()
 
-        // Get user and passwors from database
+        // Get user and password from database
         get_user_password (email)
-            .then ((password_obj) => {
-                if (password_obj.length > 0) {
-                    checkPassword (password_obj[0].password)
-                } else {
-                    displayErrorMessage (true)
+            .then ((users_pass) => {
+                // Show error by defaul
+                setError ("Wrong user or password. Try again.")
+
+                if (users_pass.length > 0) {
+                    
+                    // Decript password from database
+                    console.log (users_pass)
+                    const password_db = decrypt(users_pass[0].password)
+    
+    
+                    // Validate password
+                    if (password_db == password) {
+                        // Restart error message
+                        setError ("")
+    
+                        // Update user in cookies
+                        setCookie ("user", email, 20)
+    
+                        // Update user in context
+                        setUser (email)
+    
+                        // Update current screen
+                        setScreen ("home")
+                    }
                 }
+
+                // Disable loading
+                setLoading (false)
             })
     }
 
-    function checkPassword (password_encrypted) {
-        // Decript database password and validate with the password in form
-        const password_db = decrypt(password_encrypted)
-        if (password_db == password) {
-            // Valid password
-
-            // Update user in cookies
-            setCookie ("user", email, 20)
-
-            // Update user in context
-            setUser (email)
-
-            // Update current screen
-            setScreen ("home")
-
-
-        } else {
-            // Invalid password
-            displayErrorMessage (true)
-        }
+    // Return loading screen
+    if (loading) {
+        return (
+            <div className="d-flex w-100 mt-5 align-items-center justify-content-center">
+                <Loading />
+            </div>
+        )
     }
 
     return (
@@ -93,7 +96,7 @@ export default function Login({ onClickLink }) {
                                 required={true}
 
                                 // Save email as state
-                                onChange={function (event) {displayErrorMessage(false); setEmail(event.target.value)}}
+                                onChange={function (event) {setEmail(event.target.value)}}
                             />
                             <Input
                                 id='password'
@@ -104,22 +107,9 @@ export default function Login({ onClickLink }) {
                                 required={true}
 
                                 // Save password as state
-                                onChange={function (event) {displayErrorMessage(false); setPassoword(event.target.value)}}
+                                onChange={function (event) {setPassoword(event.target.value)}}
                             />
-                            <div id="error" className="form-text text-primary mt-0 mb-3 d-none">Wrong user or password. Try again.</div>
-                            <div className='mb-3 form-check'>
-                                <input
-                                    type='checkbox'
-                                    className='form-check-input'
-                                    id='keep'
-                                />
-                                <label
-                                    className='form-check-label'
-                                    htmlFor='keep'
-                                >
-                                    keep me logged in
-                                </label>
-                            </div>
+                            <div id="error" className="form-text text-danger mt-0 mb-3">{error}</div>
                             <div className='form-text'>
                                 You do not have an account? Sign up
                                 <button
