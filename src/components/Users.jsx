@@ -201,7 +201,7 @@ export default function Users() {
             })
     } else {
         // Generate loading spinner
-        results = <TableLoading col_span={4} />
+        results = <TableLoading col_span={7} />
     }
 
     // Generate buttons
@@ -253,7 +253,7 @@ export default function Users() {
                     rol_value={role}
                 />
                 <Table
-                    headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol']}
+                    headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol', 'buttons']}
                     body={results}
                     layout="col-12 mt-5"
                 />
