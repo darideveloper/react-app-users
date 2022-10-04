@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {
     get_users,
+    get_roles
 } from '../js/api'
 import CheckBox from './CheckBox'
 import Input from './Input'
@@ -12,6 +13,7 @@ import TableTags from './TableTags'
 export default function Users() {
     // form and data states
     const [users, setUsers] = useState([])
+    const [roles, setRoles] = useState([])
     const [form_type, setFormType] = useState('Add')
     const [update_id, setUpdateId] = useState(0)
     const [name, setName] = useState(0)
@@ -23,6 +25,13 @@ export default function Users() {
             get_users().then((users) => setUsers(users))
         }
     }, [users])
+
+    // Get roles from api
+    useEffect(() => {
+        if (roles.length == 0) {
+            get_roles().then((roles) => setRoles(roles))
+        }
+    }, [roles])
 
     // Update component when form type change
     useEffect(() => {}, [form_type])
@@ -159,6 +168,8 @@ export default function Users() {
             // Map users
             users.map((user) => {
 
+                // Get rol name for the current user
+                const role = roles.filter ((role) => role.id == user.rol_id).map ((role) => role.name)
 
                 // Return table row
                 return (
@@ -169,7 +180,7 @@ export default function Users() {
                         <td className='email'>{user.email}</td>
                         <td className='phone'>{user.phone}</td>
                         <td className='country'>{user.country}</td>
-                        <td className='rol'>{user.rol_id}</td>
+                        <td className='rol'>{role}</td>
 
                         {/* Delete and edit buttons */}
                         <td className='button'>

@@ -20,6 +20,17 @@ export async function get_roles () {
     return roles
 }
 
+export async function get_role (id) {
+    
+    // Query and return specific rol by id
+    let { data: roles, error } = await supabase
+        .from('roles')
+        .select('*')
+        .eq ('id', id)
+
+    return roles
+}
+
 export async function save_role (name, details) {
     const { data, error } = await supabase
         .from('roles')
@@ -121,6 +132,7 @@ export async function save_roles_pages (roles_pages) {
 }
 
 export async function delete_roles_pages_in (ids) {
+    // Delete registers from table 'roles_pages' based in a array of ids
     const { data, error } = await supabase
         .from('roles_pages')
         .delete()
