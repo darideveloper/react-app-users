@@ -70,30 +70,30 @@ export default function Users() {
                 setUsers([])
             )
 
-        } // else if (form_type == 'Update') {
-        //     const user_id = update_id
-        //     const new_users_pages = get_formated_users_pages(pages_ids, user_id)
+        } else if (form_type == 'Update') {
+            const user_id = update_id
+            const new_users_pages = get_formated_users_pages(pages_ids, user_id)
 
-        //     // Delete last registers
-        //     const users_pages_last = users_pages.filter(
-        //         (user_page) => user_page.user_id == user_id
-        //     )
-        //     const users_pages_last_ids = users_pages_last.map(
-        //         (user_page) => user_page.id
-        //     )
-        //     delete_users_pages_in(users_pages_last_ids).then(() => {
-        //         // Update rol in database
-        //         const rol_data = { name, details }
-        //         update_user(user_id, rol_data).then(() => {
-        //             // Insert new users pages in database
-        //             save_users_pages(new_users_pages).then(() => {
-        //                 // Restart users and users pages for update
-        //                 setusers([])
-        //                 setusersPages([])
-        //             })
-        //         })
-        //     })
-        // }
+            // Delete last registers
+            const users_pages_last = users_pages.filter(
+                (user_page) => user_page.user_id == user_id
+            )
+            const users_pages_last_ids = users_pages_last.map(
+                (user_page) => user_page.id
+            )
+            delete_users_pages_in(users_pages_last_ids).then(() => {
+                // Update rol in database
+                const rol_data = { name, details }
+                update_user(user_id, rol_data).then(() => {
+                    // Insert new users pages in database
+                    save_users_pages(new_users_pages).then(() => {
+                        // Restart users and users pages for update
+                        setusers([])
+                        setusersPages([])
+                    })
+                })
+            })
+        }
 
         // Clean form after changes
         event.target.reset()
@@ -106,36 +106,37 @@ export default function Users() {
         // Get rol data
         const table_row = event.target.parentNode.parentNode
         const user_id = table_row.querySelector('.id').innerHTML
-        const user_name = table_row.querySelector('.name').innerHTML
-        const user_details = table_row.querySelector('.details').innerHTML
-        const user_pages = table_row.querySelectorAll('.pages > span')
+        const user_first = table_row.querySelector('.first').innerHTML
+        const user_last = table_row.querySelector('.last').innerHTML
+        const user_email = table_row.querySelector('.email').innerHTML
+        const user_phone = table_row.querySelector('.phone').innerHTML
+        const user_country = table_row.querySelector('.country').innerHTML
+        const user_role = table_row.querySelector('.role').innerHTML
 
         // Placa name and details in form
-        const name_input = document.querySelector('#name')
-        const details_input = document.querySelector('#details')
+        const first_input = document.querySelector('#first')
+        const last_input = document.querySelector('#last')
+        const email_input = document.querySelector('#email')
+        const phone_input = document.querySelector('#phone')
+        const country_input = document.querySelector('#country')
+        const role_input = document.querySelector('#role')
 
-        name_input.value = user_name
-        details_input.value = user_details
+        console.log (first_input)
+
+        first_input.value = user_first
+        last_input.value = user_last
+        email_input.value = user_email
+        phone_input.value = user_phone
+        country_input.value = user_country
+        role_input.value = user_role
 
         // Update states
-        setName(user_name)
-        setDetails(user_details)
-
-        // Disable all checkboxes
-        const checkboxes_inputs = document.querySelectorAll(
-            'input[type="checkbox"]'
-        )
-        for (const checkbox of checkboxes_inputs) {
-            checkbox.checked = false
-        }
-
-        // Activate checkboxes in form
-        for (const page of user_pages) {
-            const page_id = page.innerHTML
-            const selector_checkbox = `input#${page_id}`
-            const checkbox = document.querySelector(selector_checkbox)
-            checkbox.checked = true
-        }
+        setFirst(user_first)
+        setLast(user_last)
+        setEmail(user_email)
+        setPhone(user_phone)
+        setCountry(user_country)
+        setRole(user_role)
 
         // Save update id in state
         setUpdateId(user_id)
@@ -199,20 +200,20 @@ export default function Users() {
                         <td className='email'>{user.email}</td>
                         <td className='phone'>{user.phone}</td>
                         <td className='country'>{user.country}</td>
-                        <td className='rol'>{role}</td>
+                        <td className='role'>{role}</td>
 
                         {/* Delete and edit buttons */}
                         <td className='button'>
                             <TableButton
                                 value='edit'
                                 onClick={function (event) {
-                                    // handleEdit(event)
+                                    handleEdit(event)
                                 }}
                             />
                             <TableButton
                                 value='delete'
                                 onClick={function (event) {
-                                    // hadleDelete(event)
+                                    hadleDelete(event)
                                 }}
                             />
                         </td>
