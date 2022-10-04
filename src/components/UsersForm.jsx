@@ -4,8 +4,9 @@ import Input from './Input'
 import Button from './Button'
 import Select from './Select'
 import {get_roles} from '../js/api'
+import PropTypes from 'prop-types'
 
-export default function UsersForm({onSubmit}) {
+export default function UsersForm({onSubmit, layout}) {
 
     // Query rols from database ans save as state
     const [roles, setRoles] = useState([])
@@ -53,86 +54,101 @@ export default function UsersForm({onSubmit}) {
 
     return (
         <form className='mt-0' onSubmit={function (event) {onSubmit(event)}}>
-            <Input
-                id='first'
-                label='First name'
-                type='text'
-                placeholder='John'
-                minLength={3}
-                required={true}
-            />
-            <Input
-                id='last'
-                label='Last name'
-                type='text'
-                placeholder='Doe'
-                minLength={3}
-                required={true}
-            />
-            <Input
-                id='email'
-                label='Email'
-                type='email'
-                placeholder='johndoe@gmail.com'
-                minLength={6}
-                required={true}
-            />
-            <Input
-                id='phone'
-                label='Phone'
-                type='tel'
-                placeholder='555 555 1234'
-                minLength={10}
-                required={true}
-            />
-            <Select
-                id='country'
-                data={countries_names}
-                value='United States'
-                label="Country"
-                required={true}
-            />
-            <Select
-                id='rol'
-                data={roles}
-                value='Standard'
-                label="Rol"
-                required={true}
-            />
-            <Input
-                id='password1'
-                label='Password'
-                type='password'
-                placeholder=''
-                minLength={8}
-                required={true}
+            <div className="row">
+                <div className={`col ${layout}`}>
+                    <Input
+                        id='first'
+                        label='First name'
+                        type='text'
+                        placeholder='John'
+                        minLength={3}
+                        required={true}
+                    />
+                    <Input
+                        id='last'
+                        label='Last name'
+                        type='text'
+                        placeholder='Doe'
+                        minLength={3}
+                        required={true}
+                    />
+                    <Input
+                        id='email'
+                        label='Email'
+                        type='email'
+                        placeholder='johndoe@gmail.com'
+                        minLength={6}
+                        required={true}
+                    />
+                    <Input
+                        id='phone'
+                        label='Phone'
+                        type='tel'
+                        placeholder='555 555 1234'
+                        minLength={10}
+                        required={true}
+                    />
+                </div>
+                <div className={`col ${layout}`}>
+                    <Select
+                        id='country'
+                        data={countries_names}
+                        value='United States'
+                        label="Country"
+                        required={true}
+                    />
+                    <Select
+                        id='rol'
+                        data={roles}
+                        value='Standard'
+                        label="Rol"
+                        required={true}
+                    />
+                    <Input
+                        id='password1'
+                        label='Password'
+                        type='password'
+                        placeholder=''
+                        minLength={8}
+                        required={true}
 
-                // Save password 1 state variable
-                onChange={function (event) {
-                    handlePassword ()
-                }}
-            />
-            <Input
-                id='password2'
-                label='Repeat password'
-                type='password'
-                placeholder=''
-                minLength={8}
-                required={true}
+                        // Save password 1 state variable
+                        onChange={function (event) {
+                            handlePassword ()
+                        }}
+                    />
+                    <Input
+                        id='password2'
+                        label='Repeat password'
+                        type='password'
+                        placeholder=''
+                        minLength={8}
+                        required={true}
 
-                // Save password 2 state variable
-                onChange={function (event) {
-                    handlePassword ()
-                }}
-            />
-            <p className='text-danger'>{pass_error}</p>
-            <Button
-                size={5}
-                outline={true}
-                text='Submit'
-                type="submit"
-                disabled={true}
-            />
+                        // Save password 2 state variable
+                        onChange={function (event) {
+                            handlePassword ()
+                        }}
+                    />
+
+                    <p className='text-danger'>{pass_error}</p>
+                </div>
+                <div className={`col ${layout}`}>
+                    <Button
+                        size={5}
+                        outline={true}
+                        text='Submit'
+                        type="submit"
+                        disabled={true}
+                    />
+                </div>
+            </div>
+            
         </form>
     )
+}
+
+UsersForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    layout: PropTypes.string.isRequired,
 }

@@ -9,6 +9,7 @@ import Table from './Table'
 import TableLoading from './TableLoading'
 import TableButton from './TableButton'
 import TableTags from './TableTags'
+import UsersForm from './UsersForm'
 
 export default function Users() {
     // form and data states
@@ -222,76 +223,14 @@ export default function Users() {
         <section className='users-wrapper'>
             <h1 className='text-center mb-4'>Manage users</h1>
             <div className='users row'>
-                <form
-                    className='col-12 col-lg-4 border-end p-4'
-                    onSubmit={function (event) {
-                        // handleSubmit(event)
-                    }}
-                >
-                    <Input
-                        id='first'
-                        label='First Name'
-                        type='text'
-                        placeholder='John'
-                        required={true}
-                        min_length={3}
-                        // onChange={function (event) {
-                        //     setName(event.target.value)
-                        // }}
-                    />
-
-                    <Input
-                        id='last'
-                        label='Last Name'
-                        type='text'
-                        placeholder='Doe'
-                        required={true}
-                        min_length={3}
-                        // onChange={function (event) {
-                        //     setName(event.target.value)
-                        // }}
-                    />
-                    
-                    <Input
-                        id='email'
-                        label='Email'
-                        type='email'
-                        placeholder='Doe'
-                        required={true}
-                        min_length={6}
-                        // onChange={function (event) {
-                        //     setName(event.target.value)
-                        // }}
-                    />
-
-                    <Input
-                        id='phone'
-                        label='Phone'
-                        type='tel'
-                        placeholder=''
-                        required={true}
-                        min_length={10}
-                        // onChange={function (event) {
-                        //     setName(event.target.value)
-                        // }}
-                    />
-                    
-                    
-
-                    <h2 className='h5'>Pages permisions</h2>
-
-                    <TableButton
-                        value='add'
-                        type="submit"
-                    />
-
-                    {/* Insert cancel button for update */}
-                    {cancel_button}
-                </form>
+                <UsersForm 
+                    onSubmit={console.log ("submit")}
+                    layout="col-12 col-md-6"
+                />
                 <Table
                     headers={['id', 'first name', 'last name', 'email', 'phone', 'country', 'rol']}
                     body={results}
-                    layout="col-12"
+                    layout="col-12 mt-5"
                 />
             </div>
         </section>

@@ -9,6 +9,7 @@ export default function SignUp() {
                     <div className='col-12 col-md-6 mt-3 mt-md-5'>
                         <UsersForm 
                             onSubmit={console.log ("submit")}
+                            layout="col-12"
                         />
                     </div>
                     <div className='col-12 col-md-6'>
