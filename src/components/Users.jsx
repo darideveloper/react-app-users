@@ -229,25 +229,54 @@ export default function Users() {
                     }}
                 >
                     <Input
-                        id='name'
-                        label='Name'
+                        id='first'
+                        label='First Name'
                         type='text'
-                        placeholder='Admin'
+                        placeholder='John'
                         required={true}
-                        onChange={function (event) {
-                            setName(event.target.value)
-                        }}
+                        min_length={3}
+                        // onChange={function (event) {
+                        //     setName(event.target.value)
+                        // }}
                     />
+
                     <Input
-                        id='details'
-                        label='Details'
+                        id='last'
+                        label='Last Name'
                         type='text'
-                        placeholder='About the rol...'
+                        placeholder='Doe'
                         required={true}
-                        onChange={function (event) {
-                            setDetails(event.target.value)
-                        }}
+                        min_length={3}
+                        // onChange={function (event) {
+                        //     setName(event.target.value)
+                        // }}
                     />
+                    
+                    <Input
+                        id='email'
+                        label='Email'
+                        type='email'
+                        placeholder='Doe'
+                        required={true}
+                        min_length={6}
+                        // onChange={function (event) {
+                        //     setName(event.target.value)
+                        // }}
+                    />
+
+                    <Input
+                        id='phone'
+                        label='Phone'
+                        type='tel'
+                        placeholder=''
+                        required={true}
+                        min_length={10}
+                        // onChange={function (event) {
+                        //     setName(event.target.value)
+                        // }}
+                    />
+                    
+                    
 
                     <h2 className='h5'>Pages permisions</h2>
 
