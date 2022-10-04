@@ -7,6 +7,7 @@ import SignUp from './components/SignUp'
 import Header from './components/Header'
 import Roles from './components/Roles'
 import Loading from './components/Loading'
+import Users from './components/Users'
 
 function App() {
     // const [count, setCount] = useState(0)
@@ -71,6 +72,19 @@ function App() {
                 <Header />
                 <div className='container'>
                     <Roles />
+                </div>
+            </>
+        )
+
+    }
+
+    // CRUDS screens
+    if (screen == "users") {
+        return (
+            <>
+                <Header />
+                <div className='container'>
+                    <Users />
                 </div>
             </>
         )

@@ -66,6 +66,14 @@ export async function get_user_password (email) {
     return users
 }
 
+export async function get_users () {
+    // Query and return all users from database
+    let { data: users, error } = await supabase
+        .from('users')
+        .select('*')
+    return (users)
+}
+
 // -------------------
 // PAGES QUERIES
 // -------------------

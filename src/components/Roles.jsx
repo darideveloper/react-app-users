@@ -17,7 +17,7 @@ import TableButton from './TableButton'
 import TableTags from './TableTags'
 
 export default function Roles() {
-    // Pages states
+    // form and data states
     const [pages, setPages] = useState([])
     const [roles, setRoles] = useState([])
     const [roles_pages, setRolesPages] = useState([])

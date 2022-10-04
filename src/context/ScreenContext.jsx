@@ -7,7 +7,7 @@ export const ScreenContext = createContext()
 export function ScreenContextProvider(props) {
 
     // State for manage the screens
-    const [screen, setScreen] = useState("roles")
+    const [screen, setScreen] = useState("users")
 
     // Retur4n context for encapsulate childs
     return (
