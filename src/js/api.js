@@ -85,6 +85,16 @@ export async function get_users () {
     return (users)
 }
 
+export async function save_user (user_data) {
+    const { data, error } = await supabase
+        .from('users')
+        .insert([user_data])
+
+    console.log (user_data, data, error)
+
+    return (data, error)
+}
+
 // -------------------
 // PAGES QUERIES
 // -------------------

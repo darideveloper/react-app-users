@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import {
     get_users,
-    get_roles
+    get_roles,
+    save_user
 } from '../js/api'
 import CheckBox from './CheckBox'
 import Input from './Input'
@@ -48,17 +49,28 @@ export default function Users() {
         event.preventDefault()
 
 
-        // if (form_type == 'Add') {
+        if (form_type == 'Add') {
 
-        //     // Save rol in database
-        //     save_user(name, details).then((data) => {
-        //         // Save users pages in database
-        //         save_users_pages(new_users_pages).then((data) => {
-        //             // Restart users for update
-        //             setusers([])
-        //         })
-        //     })
-        // } else if (form_type == 'Update') {
+            // Get id of the current fol
+            const rol_id = roles.filter ((role) => role.name == role).map ((role) => role.id)[0]
+
+            const user_data = {
+                first,
+                last,
+                email, 
+                phone, 
+                country, 
+                rol_id, 
+                password
+            }
+
+            // Save rol in database
+            save_user(user_data).then (
+                // Restart users for refresh component
+                setUsers([])
+            )
+
+        } // else if (form_type == 'Update') {
         //     const user_id = update_id
         //     const new_users_pages = get_formated_users_pages(pages_ids, user_id)
 
@@ -254,7 +266,7 @@ export default function Users() {
             <h1 className='text-center mb-4'>Manage users</h1>
             <div className='users row'>
                 <UsersForm 
-                    onSubmit={function () {console.log ("")}}
+                    onSubmit={handleSubmit}
                     layout="col-12 col-md-6"
                     buttons={buttons}
                     onChangeFunctions={{
