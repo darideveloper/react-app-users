@@ -51,8 +51,7 @@ export default function Users() {
         event.preventDefault()
 
         // Get id of the current fol
-        const rol_id = roles.filter ((role) => role.name == role).map ((role) => role.id)[0]
-
+        const rol_id = roles.filter ((role_elem) => role_elem.name == role).map ((role_elem) => role_elem.id)[0]
         const user_data = {
             first,
             last,
@@ -64,7 +63,6 @@ export default function Users() {
         }
 
         if (form_type == 'Add') {
-
 
             // Save rol in database
             save_user(user_data).then (
