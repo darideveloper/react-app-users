@@ -9,7 +9,7 @@ import { eraseCookie } from '../js/cookies'
 export default function Header () {
 
     // Default user pages
-    const default_pages = ["login", "signup"]
+    const default_pages = ["login"]
 
     // Get data form context
     const { user, setUser } = useContext (UserContext)

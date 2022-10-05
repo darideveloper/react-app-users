@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
 import { ScreenContext } from './context/ScreenContext'
 import Login from './Login'
-import SignUp from './SignUp'
 import Roles from './Roles'
 import Users from './Users'
 import Loading from './components/Loading'
@@ -39,15 +38,6 @@ function App() {
                                 setScreen('signup')
                             }}
                         />
-                    </div>
-                </>
-            )
-        } else if (screen == 'signup') {
-            return (
-                <>
-                    <Header />
-                    <div className='container'>
-                        <SignUp />
                     </div>
                 </>
             )

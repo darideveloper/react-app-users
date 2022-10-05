@@ -109,16 +109,6 @@ export default function Login({ onClickLink }) {
                                 onChange={function (event) {setPassoword(event.target.value)}}
                             />
                             <div id="error" className="form-text text-danger mt-0 mb-3">{error}</div>
-                            <div className='form-text'>
-                                You do not have an account? Sign up
-                                <button
-                                    type='button'
-                                    className='link-primary border-0 bg-transparent'
-                                    onClick={onClickLink}
-                                >
-                                    here
-                                </button>
-                            </div>
 
                             <Button
                                 size={5}
