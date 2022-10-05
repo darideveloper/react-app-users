@@ -1,16 +1,19 @@
 import HeaderButton from "./HeaderButton"
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
+import { ScreenContext } from '../context/ScreenContext'
 import { get_pages, get_roles_pages, get_user } from '../js/api'
 import { useState, useEffect } from "react"
+import { eraseCookie } from '../js/cookies'
 
 export default function Header () {
 
     // Default user pages
     const default_pages = ["login", "signup"]
 
-    // Get user form context
-    const { user } = useContext (UserContext)
+    // Get data form context
+    const { user, setUser } = useContext (UserContext)
+    const { screen, setScreen } = useContext(ScreenContext)
 
     // states
     const [user_pages, setUserPages] = useState(default_pages)
@@ -81,6 +84,9 @@ export default function Header () {
     
             // Update current screen
             setScreen ("login")
+
+            // Refresh screen for reload all components
+            location.reload ()
         }
     }, [screen])
 

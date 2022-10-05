@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
 import { ScreenContext } from './context/ScreenContext'
-import { eraseCookie } from './js/cookies'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Header from './components/Header'
