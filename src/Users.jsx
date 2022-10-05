@@ -6,14 +6,12 @@ import {
     update_user,
     delete_user
 } from './js/api'
-import CheckBox from './components/CheckBox'
-import Input from './components/Input'
 import Table from './components/Table'
 import TableLoading from './components/TableLoading'
 import TableButton from './components/TableButton'
-import TableTags from './components/TableTags'
 import UsersForm from './components/UsersForm'
 import Button from './components/Button'
+import { encrypt } from './js/crypt'
 
 export default function Users() {
     // form and data states
@@ -27,7 +25,7 @@ export default function Users() {
     const [phone, setPhone] = useState("")
     const [country, setCountry] = useState("United States")
     const [role, setRole] = useState("Standard")
-    const [password, setPassword] = useState("")
+    const [password_original, setPassword] = useState("")
 
     // Get users from api
     useEffect(() => {
@@ -52,6 +50,11 @@ export default function Users() {
 
         // Get id of the current fol
         const rol_id = roles.filter ((role_elem) => role_elem.name == role).map ((role_elem) => role_elem.id)[0]
+
+        // Encrypt password
+        const password = encrypt(password_original)
+   
+        // Generate data to save
         const user_data = {
             first,
             last,

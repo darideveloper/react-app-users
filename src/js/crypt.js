@@ -25,5 +25,3 @@ export function decrypt (cipher) {
 
     return plainText.toString(CryptoJS.enc.Utf8)
 }
-
-console.log (encrypt("hello world"))
