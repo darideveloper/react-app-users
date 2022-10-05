@@ -25,6 +25,9 @@ function App() {
         )
     }
 
+    // Update shen screen or user change
+    // useEffect (() => {}, [user])
+
     // return no logged screens
     if (! user) {
         if (['home', 'login'].includes(screen)) {
@@ -50,18 +53,6 @@ function App() {
                 </>
             )
         }
-    }
-
-    // Logout when user change screen to "logout"
-    if (screen == "logout") {
-        // Delete user in cookies
-        eraseCookie ("user")
-
-        // Delete user in context
-        setUser (null)
-
-        // Update current screen
-        setScreen ("login")
     }
 
     // CRUDS screens
@@ -90,12 +81,13 @@ function App() {
 
     }
     
+
     // return home page as default
     return (
         <>
             <Header />
             <div className='container'>
-                <h1 className='text-center'>Users App</h1>
+                <h1 className='text-center'>Users App Home Page</h1>
             </div>
         </>
 

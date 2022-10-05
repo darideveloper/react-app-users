@@ -39,7 +39,6 @@ export default function Login({ onClickLink }) {
                 if (users_pass.length > 0) {
                     
                     // Decript password from database
-                    console.log (users_pass)
                     const password_db = decrypt(users_pass[0].password)
     
     

@@ -97,6 +97,19 @@ export async function get_users () {
     return (users)
 }
 
+export async function get_user (email) {
+
+    await sleep(1)
+
+    // Query and return all users from database
+    let { data: users, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq ('email', email)
+
+    return (users[0])
+}
+
 export async function save_user (user_data) {
     const { data, error } = await supabase
         .from('users')
