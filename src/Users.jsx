@@ -5,15 +5,15 @@ import {
     save_user,
     update_user,
     delete_user
-} from '../js/api'
-import CheckBox from './CheckBox'
-import Input from './Input'
-import Table from './Table'
-import TableLoading from './TableLoading'
-import TableButton from './TableButton'
-import TableTags from './TableTags'
-import UsersForm from './UsersForm'
-import Button from './Button'
+} from './js/api'
+import CheckBox from './components/CheckBox'
+import Input from './components/Input'
+import Table from './components/Table'
+import TableLoading from './components/TableLoading'
+import TableButton from './components/TableButton'
+import TableTags from './components/TableTags'
+import UsersForm from './components/UsersForm'
+import Button from './components/Button'
 
 export default function Users() {
     // form and data states

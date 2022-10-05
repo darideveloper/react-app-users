@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect } from 'react'
-import { ScreenContext } from '../context/ScreenContext'
-import { UserContext } from '../context/UserContext'
-import { get_user_password } from '../js/api'
-import { decrypt } from '../js/crypt'
-import { setCookie } from '../js/cookies'
-import Input from './Input'
-import Button from './Button'
-import Loading from './Loading'
+import { ScreenContext } from './context/ScreenContext'
+import { UserContext } from './context/UserContext'
+import { get_user_password } from './js/api'
+import { decrypt } from './js/crypt'
+import { setCookie } from './js/cookies'
+import Input from './components/Input'
+import Button from './components/Button'
+import Loading from './components/Loading'
 
 export default function Login({ onClickLink }) {
 

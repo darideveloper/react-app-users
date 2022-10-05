@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from './context/UserContext'
 import { ScreenContext } from './context/ScreenContext'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import Header from './components/Header'
-import Roles from './components/Roles'
+import Login from './Login'
+import SignUp from './SignUp'
+import Roles from './Roles'
+import Users from './Users'
 import Loading from './components/Loading'
-import Users from './components/Users'
+import Header from './components/Header'
 
 function App() {
     // const [count, setCount] = useState(0)

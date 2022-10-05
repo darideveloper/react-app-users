@@ -50,14 +50,7 @@ export default function Header () {
 
     // Update manu
     useEffect (() => {
-        console.log ({
-            user_data,
-            pages,
-            roles_pages,
-            user_pages
-        })
         if (user_data && pages && roles_pages && user_pages[0] == default_pages[0]) {
-            console.log ("login pages")
 
             // Get the pages ids
             const pages_ids = roles_pages.filter ((role_page) => role_page.role_id == user_data.rol_id)

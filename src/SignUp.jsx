@@ -1,5 +1,5 @@
-import UsersForm from './UsersForm'
-import Button from './Button'
+import UsersForm from './components/UsersForm'
+import Button from './components/Button'
 
 export default function SignUp() {
 
