@@ -49,41 +49,41 @@ This is a project that allows you to manage users, roles and permissions to view
 
 # Roadmap
 
-- [x] Layout (Bootstrap)\r
-  - [x] Responsive\r
-  - [x] Mobile first\r
-- [x] React\r
-  - [x] Vite (for create react project)\r
-  - [x] Function components\r
-  - [x] Event handlers\r
-  - [x] React hooks\r
-  - [x] React context\r
-- [x] Login page\r
-  - [x] Login with email and password\r
-  - [x] Error menssag\r
-  - [x] Loading spinner when submit form\r
-- [ ] Sign up page\r
-- [x] Users CRUD page\r
-  - [x] See all users\r
-  - [x] Add new user\r
-  - [x] Update an user\r
-  - [x] Delete an user\r
-  - [ ] Query users \r
-- [x] Roles CRUD page\r
-  - [x] See all roles\r
-  - [x] Add new roles\r
-  - [x] Update an roles\r
-  - [x] Delete an roles\r
-  - [x] Manage pages who each role can access\r
-  - [ ] Query users \r
-- [x] Header section\r
-  - [x] Menu options based in user roles\r
-  - [ ] Add more options\r
-- [x] Database\r
-  - [x] Encrypted passwords\r
-  - [ ] Unique email validation\r
-- [x] Deploy\r
-  - [x] Github pages \r
+- [x] Layout (Bootstrap)
+  - [x] Responsive
+  - [x] Mobile first
+- [x] React
+  - [x] Vite (for create react project)
+  - [x] Function components
+  - [x] Event handlers
+  - [x] React hooks
+  - [x] React context
+- [x] Login page
+  - [x] Login with email and password
+  - [x] Error menssag
+  - [x] Loading spinner when submit form
+- [ ] Sign up page
+- [x] Users CRUD page
+  - [x] See all users
+  - [x] Add new user
+  - [x] Update an user
+  - [x] Delete an user
+  - [ ] Query users 
+- [x] Roles CRUD page
+  - [x] See all roles
+  - [x] Add new roles
+  - [x] Update an roles
+  - [x] Delete an roles
+  - [x] Manage pages who each role can access
+  - [ ] Query users 
+- [x] Header section
+  - [x] Menu options based in user roles
+  - [ ] Add more options
+- [x] Database
+  - [x] Encrypted passwords
+  - [ ] Unique email validation
+- [x] Deploy
+  - [x] Github pages 
   - [ ] AWS
 
 
